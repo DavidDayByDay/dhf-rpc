@@ -3,7 +3,7 @@ package com.better.constants;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class MessageConstants {
-    //建议消息唯一序列号id
+    //简易消息唯一序列号id
     private static final AtomicInteger id = new AtomicInteger(0);
 
 
@@ -11,7 +11,7 @@ public class MessageConstants {
 
     public static final byte VERSION = 1;
 
-    public static int getMessageId(){
+    public static int getMessageIdAtomically(){
         return id.getAndIncrement();
     }
 

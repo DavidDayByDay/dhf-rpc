@@ -31,7 +31,7 @@ public class MessageHeader {
     private byte[] magicNumber;
     //Rpc软件版本
     private byte version;
-    //序列化类型（JSON，kryo，JDK）
+    //序列化类型（JSON，kryo，JDK,Hessian,protostuff）
     private byte serializerType;
     //消息类型（请求，响应，心跳）
     private byte messageType;
@@ -50,7 +50,7 @@ public class MessageHeader {
                 .serializerType(serializerType)
                 .messageType(messageType)
                 .status(status)
-                .id(MessageConstants.getMessageId())
+                .id(MessageConstants.getMessageIdAtomically())
                 .messageLength(length)
                 .build();
 

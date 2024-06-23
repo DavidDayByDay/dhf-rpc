@@ -1,5 +1,6 @@
 package com.better.enums;
 
+import com.better.exceptions.MessageException;
 import lombok.Getter;
 
 public enum SerializerType {
@@ -36,23 +37,22 @@ public enum SerializerType {
         this.type = type;
     }
 
-    public static SerializerType parseByName(String serializerName){
+    public static SerializerType parseByName(String serializerName) throws MessageException {
         for (SerializerType type : SerializerType.values()){
             if (type.name().equals(serializerName)){
                 return type;
             }
         }
-//        throw new MessageException("no exist serializer type: " + serializerName);
-        return null;
+        throw new MessageException("no exist serializer type: " + serializerName);
     }
 
-    public static SerializerType parseByType(byte type){
+    public static SerializerType parseByType(byte type) throws MessageException {
         for (SerializerType serializerType : SerializerType.values()){
             if (serializerType.getType()==type){
                 return serializerType;
             }
         }
-        return null;
+        throw new MessageException(String.format("no such type %s SerializerType exist!",type));
     }
 
 }
