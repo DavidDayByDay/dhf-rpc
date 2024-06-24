@@ -1,8 +1,12 @@
+import com.better.constants.MessageConstants;
 import com.better.enums.MessageStatus;
 import com.better.enums.SerializerType;
+import com.better.exceptions.SerializeException;
+import com.better.factories.SerializerFactory;
 import com.better.protocol.MessageHeader;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class test {
     public static void main(String[] args) {
@@ -26,5 +30,15 @@ public class test {
 
         MessageStatus messageStatus = MessageStatus.SUCCESS;
         System.out.println(MessageStatus.isSuccess(messageStatus.getType()));
+//        System.out.println(messageStatus.getClass().getModifiers());
+
+
+        try {
+            System.out.println(SerializerFactory.getSerializer((byte) 3));
+        } catch (SerializeException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println(Arrays.toString(MessageConstants.MAGIC_NUMBER));
     }
 }

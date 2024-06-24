@@ -12,5 +12,5 @@ public class RpcMessage {
     //请求头
     private MessageHeader messageHeader;
     //消息正文
-    private Object message;
+    private Object messageBody;
 }

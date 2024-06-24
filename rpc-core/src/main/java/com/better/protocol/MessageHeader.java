@@ -1,10 +1,8 @@
 package com.better.protocol;
 
 import com.better.constants.MessageConstants;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import static com.better.constants.MessageConstants.MAGIC_NUMBER;
 import static com.better.constants.MessageConstants.VERSION;
@@ -23,13 +21,13 @@ import static com.better.constants.MessageConstants.VERSION;
  */
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 @Builder
 public class MessageHeader {
     //魔数，用于迅速判断是否为有效信息
     private byte[] magicNumber;
-    //Rpc软件版本
+    //Rpc版本
     private byte version;
     //序列化类型（JSON，kryo，JDK,Hessian,protostuff）
     private byte serializerType;
