@@ -1,18 +1,23 @@
 package com.better.codec;
 
 import com.better.constants.MessageConstants;
+import com.better.enums.MessageType;
 import com.better.exceptions.MessageException;
 import com.better.factories.SerializerFactory;
+import com.better.message.RequestMessage;
+import com.better.message.ResponseMessage;
 import com.better.protocol.MessageHeader;
 import com.better.protocol.RpcMessage;
 import com.better.serializer.Serializer;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageCodec;
 
 import java.util.Arrays;
 import java.util.List;
 
+@Sharable
 public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMessage> {
     @Override
     protected void encode(ChannelHandlerContext ctx, RpcMessage rpcMessage, List<Object> list) throws Exception {
@@ -62,13 +67,48 @@ public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMess
         int messageLength = buf.readInt();
         byte[] bytes = new byte[messageLength];
         //得到消息体
-        buf.readBytes(bytes,0,messageLength);
+        buf.readBytes(bytes, 0, messageLength);
+
+        //构造新的rpcMessage对象进行传递
+        MessageHeader messageHead = MessageHeader.builder()
+                .magicNumber(magicNumber)
+                .version(version)
+                .serializerType(serializerType)
+                .messageType(messageType)
+                .status(messageStatus)
+                .id(id)
+                .messageLength(messageLength)
+                .build();
+
+        RpcMessage rpcMessage = new RpcMessage();
+        rpcMessage.setMessageHeader(messageHead);
+
         //2.根据序列化算法反序列化
         Serializer serializer = SerializerFactory.getSerializer(serializerType);
-
-
-
-        //3，判断消息类型
+        MessageType actualMessageType = MessageType.parseByType(messageType);
+        boolean isDone = false;
+        switch (actualMessageType) {
+            case REQUEST -> {
+                RequestMessage request = serializer.deserialize(bytes, RequestMessage.class);
+                rpcMessage.setMessageBody(request);
+                isDone = true;
+            }
+            case RESPONSE -> {
+                ResponseMessage response = serializer.deserialize(bytes,ResponseMessage.class);
+                rpcMessage.setMessageBody(response);
+                isDone = true;
+            }
+            //default-->HeartBeatMessage
+            default -> {
+                if (isDone != true){
+                    String heartBeatMessage = serializer.deserialize(bytes, String.class);
+                    rpcMessage.setMessageBody(heartBeatMessage);
+                    isDone = true;
+                }
+            }
+        }
+        //传递
+        list.add(rpcMessage);
     }
 
 }

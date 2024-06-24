@@ -40,5 +40,20 @@ public class test {
         }
 
         System.out.println(Arrays.toString(MessageConstants.MAGIC_NUMBER));
+
+        int q = 1;
+        boolean isDone = false;
+
+        switch (q){
+            case 1:
+                System.out.println(1);
+                isDone = true;
+
+            default:
+                if (isDone != true){
+                    System.out.println(1000);
+                }
+
+        }
     }
 }
