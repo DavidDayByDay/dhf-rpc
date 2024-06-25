@@ -54,5 +54,17 @@ public class MessageHeader {
 
     }
 
+    public static MessageHeader defualtMessageHeader(){
+        return MessageHeader.builder()
+                .magicNumber(MAGIC_NUMBER)
+                .version(VERSION)
+                .serializerType((byte) 0)
+                .messageType((byte) 0)
+                .status((byte) 0)
+                .id(MessageConstants.getMessageIdAtomically())
+                .messageLength(0)
+                .build();
+    }
+
 
 }

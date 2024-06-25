@@ -1,4 +1,4 @@
-package com.better.message;
+package com.better.pojos;
 
 import lombok.Data;
 

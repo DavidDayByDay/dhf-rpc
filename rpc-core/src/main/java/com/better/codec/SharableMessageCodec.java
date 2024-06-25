@@ -4,8 +4,8 @@ import com.better.constants.MessageConstants;
 import com.better.enums.MessageType;
 import com.better.exceptions.MessageException;
 import com.better.factories.SerializerFactory;
-import com.better.message.RequestMessage;
-import com.better.message.ResponseMessage;
+import com.better.pojos.RequestMessage;
+import com.better.pojos.ResponseMessage;
 import com.better.protocol.MessageHeader;
 import com.better.protocol.RpcMessage;
 import com.better.serializer.Serializer;
@@ -17,8 +17,13 @@ import io.netty.handler.codec.MessageToMessageCodec;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 编解码用的入站出站处理器
+ */
 @Sharable
 public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMessage> {
+
+    // 出站处理器 rpcMessage --> byteBuf
     @Override
     protected void encode(ChannelHandlerContext ctx, RpcMessage rpcMessage, List<Object> list) throws Exception {
         //todo 每次调用都会声明一个ByteBuf --？是否使用了池化
@@ -44,6 +49,8 @@ public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMess
         list.add(buf);
     }
 
+
+    // 入站处理器 byteBuf --> rpcMessage
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf buf, List<Object> list) throws Exception {
         //1.验证魔数和版本号
@@ -88,25 +95,25 @@ public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMess
         MessageType actualMessageType = MessageType.parseByType(messageType);
         boolean isDone = false;
         switch (actualMessageType) {
-            case REQUEST -> {
+//            case REQUEST -> {
+            case REQUEST:
                 RequestMessage request = serializer.deserialize(bytes, RequestMessage.class);
                 rpcMessage.setMessageBody(request);
                 isDone = true;
-            }
-            case RESPONSE -> {
+//            case RESPONSE -> {
+            case RESPONSE:
                 ResponseMessage response = serializer.deserialize(bytes,ResponseMessage.class);
                 rpcMessage.setMessageBody(response);
                 isDone = true;
-            }
             //default-->HeartBeatMessage
-            default -> {
+            default:
+//            default -> {
                 if (isDone != true){
                     String heartBeatMessage = serializer.deserialize(bytes, String.class);
                     rpcMessage.setMessageBody(heartBeatMessage);
                     isDone = true;
                 }
             }
-        }
         //传递
         list.add(rpcMessage);
     }
