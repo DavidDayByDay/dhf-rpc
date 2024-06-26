@@ -20,7 +20,7 @@ public class ServiceInfoConverter {
     public static Map toMap(ServiceInfo serviceInfo) {
         Map map = gson.fromJson(gson.toJson(serviceInfo), Map.class);
         //gson 会将字符数字转化为double
-        map.put("servicePort", serviceInfo.getServicePort());
+        map.put("servicePort", serviceInfo.getServicePort().toString());
         return map;
     }
 

@@ -6,7 +6,10 @@ import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.alibaba.nacos.client.naming.NacosNamingService;
 import com.better.pojos.ServiceInfo;
 import com.better.registryanddiscovery.registry.ServiceRegistry;
+import com.better.utils.ServiceInfoConverter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Map;
 
 @Slf4j
 public class NacosRegistry implements ServiceRegistry {
@@ -31,7 +34,10 @@ public class NacosRegistry implements ServiceRegistry {
         instance.setPort(serviceInfo.getServicePort());
         instance.setServiceName(serviceInfo.getServiceName());
         instance.setHealthy(true);
-//        instance.setMetadata();
+//        instance.setClusterName("cluster");
+        //可以考虑将元数据打包放入
+        Map metaData = ServiceInfoConverter.toMap(serviceInfo);
+        instance.setMetadata(metaData);
 
         try {
             namingService.registerInstance(serviceInfo.getServiceName(), instance);
@@ -49,7 +55,9 @@ public class NacosRegistry implements ServiceRegistry {
         instance.setPort(serviceInfo.getServicePort());
         instance.setServiceName(serviceInfo.getServiceName());
         instance.setHealthy(true);
-//        instance.setMetadata();
+
+//        Map metaData = ServiceInfoConverter.toMap(serviceInfo);
+//        instance.setMetadata(metaData);
 
         try {
             namingService.deregisterInstance(serviceInfo.getServiceName(),instance);

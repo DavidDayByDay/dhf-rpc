@@ -8,7 +8,7 @@ public class ServiceInfo {
 
     private String serviceAddress;
 
-    private int servicePort;
+    private Integer servicePort;
 
     private String version;
 }

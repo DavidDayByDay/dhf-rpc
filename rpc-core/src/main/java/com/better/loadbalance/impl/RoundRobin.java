@@ -8,11 +8,10 @@ import java.util.List;
 public class RoundRobin implements LoadBalance {
     @Override
     public ServiceInfo select(List<ServiceInfo> services) {
-        return null;
+        return doSelect(services);
     }
 
-    @Override
-    public ServiceInfo doSelect(List<ServiceInfo> services) {
+    private ServiceInfo doSelect(List<ServiceInfo> services) {
         return null;
     }
 }
