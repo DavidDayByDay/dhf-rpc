@@ -12,6 +12,7 @@
         <module>rpc-core</module>
         <module>rpc-client-test</module>
         <module>rpc-server-test</module>
+        <module>rpc-client-spring</module>
     </modules>
 
     <properties>
@@ -47,6 +48,11 @@
             </dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>1.2.11</version>
+            </dependency>
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
                 <version>1.2.13</version>
             </dependency>
@@ -64,10 +70,10 @@
                         <groupId>ch.qos.logback</groupId>
                         <artifactId>logback-core</artifactId>
                     </exclusion>
-                    <exclusion>
-                        <groupId>ch.qos.logback</groupId>
-                        <artifactId>logback-classic</artifactId>
-                    </exclusion>
+<!--                    <exclusion>-->
+<!--                        <groupId>ch.qos.logback</groupId>-->
+<!--                        <artifactId>logback-classic</artifactId>-->
+<!--                    </exclusion>-->
                     <exclusion>
                         <groupId>org.slf4j</groupId>
                         <artifactId>slf4j-api</artifactId>

@@ -12,6 +12,7 @@ public class RoundRobin implements LoadBalance {
     }
 
     private ServiceInfo doSelect(List<ServiceInfo> services) {
-        return null;
+        //todo
+        return services.get(0);
     }
 }

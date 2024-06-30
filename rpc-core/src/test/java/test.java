@@ -6,12 +6,15 @@ import com.better.factories.SerializerFactory;
 import com.better.pojos.ServiceInfo;
 import com.better.protocol.MessageHeader;
 import com.better.utils.ServiceInfoConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class test {
 //    @Test
 //    public void test1(){
@@ -32,6 +35,13 @@ public class test {
         }
     }
 
+    @Test
+    public void test1(){
+        Map<Class<?>, Object> objectMap = new HashMap<Class<?>, Object>();
+        objectMap.put(ServiceInfo.class, new ServiceInfo());
+        objectMap.put(ServiceInfoConverter.class, new ServiceInfoConverter());
+    }
+
 
 
     public static void main(String[] args) {
@@ -45,6 +55,8 @@ public class test {
         SerializerType json = SerializerType.PROTOSTUFF;
         byte type = json.getType();
         System.out.println(type);
+
+        log.debug("hele");
 
 //        try {
 //            MessageType.parseByType((byte) 100);

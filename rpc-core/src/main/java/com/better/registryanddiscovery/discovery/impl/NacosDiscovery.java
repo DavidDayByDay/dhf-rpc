@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 实现服务发现，同时获取服务后在服务端进行负载均衡配置
+ * 实现服务发现，同时获取服务后在服务端(本地)进行负载均衡配置
  * 基本思路：1.连接注册中心后获取所有可用的服务并在本地进行负载均衡选择
  *         2.采用缓存将发现的服务保存在本地，避免nacos挂掉后服务不可用
  *         3.1 (可选)向nacos注册监听器及时更新服务列表
@@ -81,7 +81,7 @@ public class NacosDiscovery implements ServiceDiscovery {
             return serviceCacheMap.get(serviceName);
 
         } catch (NacosException e) {
-            log.error("error occurred when find all service instances: {}",serviceName);
+            log.error("error occurred when try to find all service instances: {}",serviceName);
             throw new RuntimeException(e);
         }
     }

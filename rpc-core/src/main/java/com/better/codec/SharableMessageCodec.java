@@ -13,6 +13,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageCodec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +24,8 @@ import java.util.List;
  */
 @Sharable
 public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMessage> {
+
+    private static final Logger log = LoggerFactory.getLogger(SharableMessageCodec.class);
 
     // 出站处理器 rpcMessage --> byteBuf
     @Override
@@ -46,6 +50,7 @@ public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMess
         buf.writeInt(length);
         buf.writeBytes(bytes);
         //完成消息写入并向下传递
+        log.debug("successfully encoded rpc message {}", rpcMessage);
         list.add(buf);
     }
 
@@ -100,11 +105,13 @@ public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMess
                 RequestMessage request = serializer.deserialize(bytes, RequestMessage.class);
                 rpcMessage.setMessageBody(request);
                 isDone = true;
+                break;
 //            case RESPONSE -> {
             case RESPONSE:
                 ResponseMessage response = serializer.deserialize(bytes,ResponseMessage.class);
                 rpcMessage.setMessageBody(response);
                 isDone = true;
+                break;
             //default-->HeartBeatMessage
             default:
 //            default -> {
@@ -115,6 +122,7 @@ public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMess
                 }
             }
         //传递
+        log.debug("successfully decoded rpc message {}", rpcMessage);
         list.add(rpcMessage);
     }
 
