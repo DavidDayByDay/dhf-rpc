@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 
 import java.util.Map;
 
-public class ServiceInfoConverter {
+public class ServiceInfoUtils {
     public static Gson gson = new Gson();
 
     //服务签名（key）生成

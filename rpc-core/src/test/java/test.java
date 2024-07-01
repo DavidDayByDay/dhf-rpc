@@ -5,7 +5,7 @@ import com.better.exceptions.SerializeException;
 import com.better.factories.SerializerFactory;
 import com.better.pojos.ServiceInfo;
 import com.better.protocol.MessageHeader;
-import com.better.utils.ServiceInfoConverter;
+import com.better.utils.ServiceInfoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -28,7 +28,7 @@ public class test {
         serviceInfo.setServicePort(8888);
         serviceInfo.setServiceName("test");
         serviceInfo.setVersion("1");
-        Map map = ServiceInfoConverter.toMap(serviceInfo);
+        Map map = ServiceInfoUtils.toMap(serviceInfo);
         map.put("servicePort",8888);
         for (Object key : map.keySet()) {
             System.out.println(key + ":" + map.get(key) + "\nclass:" + map.get(key).getClass());
@@ -39,7 +39,7 @@ public class test {
     public void test1(){
         Map<Class<?>, Object> objectMap = new HashMap<Class<?>, Object>();
         objectMap.put(ServiceInfo.class, new ServiceInfo());
-        objectMap.put(ServiceInfoConverter.class, new ServiceInfoConverter());
+        objectMap.put(ServiceInfoUtils.class, new ServiceInfoUtils());
     }
 
 

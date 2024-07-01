@@ -21,6 +21,7 @@ import java.util.List;
 
 /**
  * 编解码用的入站出站处理器
+ * 可共享，内部的byteBuf不会保存其他请求的数据
  */
 @Sharable
 public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMessage> {

@@ -18,7 +18,7 @@ public class NacosRegistryTest {
         serviceInfo.setServiceAddress("127.0.0.1:8800");
         serviceInfo.setVersion("1");
 
-//        Map map = ServiceInfoConverter.toMap(serviceInfo);
+//        Map map = ServiceInfoUtils.toMap(serviceInfo);
 //        instance.setPort(8800);
 //        instance.setIp("127.0.0.1");
 //        instance.setServiceName(map.get("serviceName").toString());

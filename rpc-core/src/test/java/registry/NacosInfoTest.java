@@ -3,7 +3,7 @@ package registry;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.better.pojos.ServiceInfo;
 import com.better.registryanddiscovery.registry.impl.NacosRegistry;
-import com.better.utils.ServiceInfoConverter;
+import com.better.utils.ServiceInfoUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,9 +21,9 @@ public class NacosInfoTest {
         serviceInfo.setServiceAddress("127.0.0.1:8800");
         serviceInfo.setVersion("1");
 
-        Map map = ServiceInfoConverter.toMap(serviceInfo);
+        Map map = ServiceInfoUtils.toMap(serviceInfo);
         instance.setMetadata(map);
-        ServiceInfo serviceInfo1 = ServiceInfoConverter.toServiceInfo(map);
+        ServiceInfo serviceInfo1 = ServiceInfoUtils.toServiceInfo(map);
         System.out.println(serviceInfo1);
 
     }
@@ -43,7 +43,7 @@ public class NacosInfoTest {
 
     @Test
     public void test2(){
-        Map map = ServiceInfoConverter.toMap(serviceInfo);
+        Map map = ServiceInfoUtils.toMap(serviceInfo);
         for(Object key : map.keySet()){
             System.out.println(key+":"+map.get(key) + "\n"+ map.get(key).getClass());
         }

@@ -3,7 +3,7 @@ package com.better.client.Netty;
 import com.better.client.Client;
 import com.better.codec.DefaultLengthFieldFrameDecoder;
 import com.better.codec.SharableMessageCodec;
-import com.better.common.RpcMessageWrapper;
+import com.better.wrappers.RpcMessageWrapper;
 import com.better.exceptions.RpcException;
 import com.better.factories.SingletonFactory;
 import com.better.handler.RpcResponseHandler;
@@ -44,9 +44,8 @@ public class NettyClient implements Client {
                         pipeline.addLast(new DefaultLengthFieldFrameDecoder());
                         //编解码
                         pipeline.addLast(new SharableMessageCodec());
-                        //rpc事件处理器
-//                        pipeline.addLast(new rpcResponseHandler);
-                        //在客户端应该添加的是响应（response）信息处理器
+                        //rpc事件处理器,在客户端应该添加的是响应（response）信息处理器
+                        pipeline.addLast(new RpcResponseHandler());
                     }
                 });
         //到此，bootstrap构造完成
@@ -122,7 +121,7 @@ public class NettyClient implements Client {
      */
     @Override
     public RpcMessage sendRpcRequest(RpcMessageWrapper rpcMessageWrapper) {
-        String hostName = rpcMessageWrapper.getHostName();
+        String hostName = rpcMessageWrapper.getHost();
         int port = rpcMessageWrapper.getPort();
         Channel channel = getChannel(hostName,port);
         //promise对象用来记录rpc调用的情况
@@ -138,8 +137,11 @@ public class NettyClient implements Client {
             }
         });
 
+        return getRpcMessage(rpcMessageWrapper.getTimeOut(), promise);
+    }
+
+    private RpcMessage getRpcMessage(Integer timeOut, DefaultPromise<RpcMessage> promise) {
         //等待接受rpc调用产生的响应结果
-        Integer timeOut = rpcMessageWrapper.getTimeOut();
         try {
             if(timeOut == null && timeOut <= 0) {
                 promise.await();

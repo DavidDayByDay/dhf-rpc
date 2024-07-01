@@ -8,7 +8,7 @@ import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.better.loadbalance.LoadBalance;
 import com.better.pojos.ServiceInfo;
 import com.better.registryanddiscovery.discovery.ServiceDiscovery;
-import com.better.utils.ServiceInfoConverter;
+import com.better.utils.ServiceInfoUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -73,7 +73,7 @@ public class NacosDiscovery implements ServiceDiscovery {
                     System.out.println(((NamingEvent) event).getInstances().size());
                     serviceCacheMap.put(namingEvent.getServiceName(),namingEvent.getInstances().stream().map(instance -> {
                         System.out.println(instance);
-                        return ServiceInfoConverter.toServiceInfo(instance.getMetadata());
+                        return ServiceInfoUtils.toServiceInfo(instance.getMetadata());
                     }).collect(Collectors.toList()));
                     log.info("successfully updated service:{}", serviceName);
                 });

@@ -24,24 +24,17 @@ public class TestServer {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         ChannelPipeline pipeline = socketChannel.pipeline();
-//                        pipeline.addLast(new ChannelInboundHandlerAdapter() {
-//                            @Override
-//                            public void channelActive(ChannelHandlerContext ctx) throws Exception {
-//                                log.info("channelActive");
-//                            }
-//                        });
                         pipeline.addLast(new DefaultLengthFieldFrameDecoder());
                         pipeline.addLast(new SharableMessageCodec());
-                        pipeline.addLast(new ChannelOutboundHandlerAdapter(){
+                        pipeline.addLast(new ChannelInboundHandlerAdapter(){
                             @Override
-                            public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-                                System.out.println(msg);
-                                RpcMessage defaultRpcMessageWithResponse = RpcMessage.getDefaultRpcMessageWithResponse();
-                                ctx.writeAndFlush(defaultRpcMessageWithResponse);
-                                ctx.write(msg, promise);
-                            }
+                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+                                RpcMessage msg1 = (RpcMessage) msg;
+                                System.out.println(msg + " msg type: " + msg.getClass() + "messagebody: " + msg1.getMessageBody());
 
-                        });
+                            }
+                                         }
+                        );
                     }
                 })
                 .bind(8080);
