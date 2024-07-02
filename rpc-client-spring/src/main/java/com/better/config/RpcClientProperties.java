@@ -1,4 +1,4 @@
-package com.better.properties;
+package com.better.config;
 
 import lombok.Data;
 

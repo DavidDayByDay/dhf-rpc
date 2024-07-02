@@ -2,7 +2,7 @@ package com.better.proxy;
 
 import com.better.client.Client;
 import com.better.handler.JDKProxyHandler;
-import com.better.properties.RpcClientProperties;
+import com.better.config.RpcClientProperties;
 import com.better.registryanddiscovery.discovery.ServiceDiscovery;
 import com.better.utils.ServiceInfoUtils;
 

@@ -7,7 +7,7 @@ import com.better.enums.SerializerType;
 import com.better.exceptions.MessageException;
 import com.better.pojos.RequestMessage;
 import com.better.pojos.ServiceInfo;
-import com.better.properties.RpcClientProperties;
+import com.better.config.RpcClientProperties;
 import com.better.protocol.MessageHeader;
 import com.better.protocol.RpcMessage;
 import com.better.registryanddiscovery.discovery.ServiceDiscovery;

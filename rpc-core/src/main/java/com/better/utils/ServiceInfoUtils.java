@@ -8,7 +8,11 @@ import java.util.Map;
 public class ServiceInfoUtils {
     public static Gson gson = new Gson();
 
-    //服务签名（key）生成
+    /**
+     * 服务签名（key）生成
+     * 同时也是服务的注册名
+     */
+
     public static String serviceKey(String serviceName,String version){
        return String.join("-",serviceName,version);
     }

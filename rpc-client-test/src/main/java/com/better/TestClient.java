@@ -40,8 +40,8 @@ public class TestClient {
                     })
                     .connect("127.0.0.1", 8080)
                     .sync()
-                    .channel()
-                    .writeAndFlush(rpcMessage);
+                    .channel();
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

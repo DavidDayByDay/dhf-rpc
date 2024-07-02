@@ -1,7 +1,7 @@
 package netty;
 
 import com.better.client.Netty.NettyClient;
-import com.better.properties.RpcClientProperties;
+import com.better.config.RpcClientProperties;
 import com.better.proxy.ProxyFactory;
 import com.better.registryanddiscovery.discovery.ServiceDiscovery;
 import com.better.registryanddiscovery.discovery.impl.NacosDiscovery;

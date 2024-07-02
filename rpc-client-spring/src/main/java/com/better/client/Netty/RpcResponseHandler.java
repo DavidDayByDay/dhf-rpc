@@ -1,4 +1,4 @@
-package com.better.handler;
+package com.better.client.Netty;
 
 import com.better.enums.MessageType;
 import com.better.exceptions.RpcException;

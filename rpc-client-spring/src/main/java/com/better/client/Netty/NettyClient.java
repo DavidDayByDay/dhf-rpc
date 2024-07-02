@@ -6,7 +6,6 @@ import com.better.codec.SharableMessageCodec;
 import com.better.wrappers.RpcMessageWrapper;
 import com.better.exceptions.RpcException;
 import com.better.factories.SingletonFactory;
-import com.better.handler.RpcResponseHandler;
 import com.better.protocol.RpcMessage;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;

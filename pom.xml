@@ -13,6 +13,7 @@
         <module>rpc-client-test</module>
         <module>rpc-server-test</module>
         <module>rpc-client-spring</module>
+        <module>rpc-server-spring</module>
     </modules>
 
     <properties>

@@ -2,7 +2,7 @@ package com.better.handler;
 
 import com.better.client.Client;
 import com.better.pojos.ResponseMessage;
-import com.better.properties.RpcClientProperties;
+import com.better.config.RpcClientProperties;
 import com.better.protocol.RpcMessage;
 import com.better.registryanddiscovery.discovery.ServiceDiscovery;
 import com.better.utils.RpcRequestMessageMaker;
