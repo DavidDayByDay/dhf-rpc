@@ -10,6 +10,7 @@ import java.lang.reflect.Proxy;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+
 /**
  * 单例使用
  */
@@ -27,10 +28,14 @@ public class ProxyFactory {
     }
 
     public <T> T makeProxy(Class<T> interfaceClass, String version) {
-        return (T) PROXY_MAP.computeIfAbsent(ServiceInfoUtils.serviceKey(interfaceClass.getName(), version), k -> {
+        String servicename = ServiceInfoUtils.getServiceNameByInterface(interfaceClass, version);
+
+        return (T) PROXY_MAP.computeIfAbsent(servicename, k -> {
             return Proxy.newProxyInstance(ProxyFactory.class.getClassLoader(), new Class[]{interfaceClass}, new JDKProxyHandler(
-                    client, properties, ServiceInfoUtils.serviceKey(interfaceClass.getName(), version), serviceDiscovery));
+                    client, properties, servicename, serviceDiscovery));
         });
     }
+
+
 
 }

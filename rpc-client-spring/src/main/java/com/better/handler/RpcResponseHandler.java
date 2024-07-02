@@ -26,15 +26,23 @@ public class RpcResponseHandler extends SimpleChannelInboundHandler<RpcMessage> 
         try {
             MessageType messageType = MessageType.parseByType(rpcMessage.getMessageHeader().getMessageType());
             if (messageType == MessageType.RESPONSE) {
+                log.debug("received response message: {}", rpcMessage);
                 int sequenceId = rpcMessage.getMessageHeader().getId();
                 Promise<RpcMessage> promise = UNPROCESSED_RESPONSES.get(sequenceId);
+                //不存在该请求的记录promise
                 if (promise == null) {
                     log.debug("unlogged promise for sequenceId: {}", sequenceId);
                     throw new RpcException("unlogged promise for sequenceId: " + sequenceId);
                 }
 
-                ResponseMessage messageBody = (ResponseMessage) rpcMessage.getMessageBody();
-                Exception exception = messageBody.getException();
+                //该请求的promise已经处理过了
+                if (promise.isSuccess()) {
+                    log.debug("promise is already completed for sequenceId: {}", sequenceId);
+                    throw new RpcException("promise is already completed for sequenceId: " + sequenceId);
+                }
+
+                ResponseMessage responseMessage = (ResponseMessage) rpcMessage.getMessageBody();
+                Exception exception = responseMessage.getException();
                 if (exception != null) {
                     log.debug("find exception in response for sequenceId: {}", sequenceId);
                     promise.setFailure(exception);

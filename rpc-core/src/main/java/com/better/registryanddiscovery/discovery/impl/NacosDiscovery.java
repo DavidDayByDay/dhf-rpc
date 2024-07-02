@@ -56,7 +56,7 @@ public class NacosDiscovery implements ServiceDiscovery {
                 List<ServiceInfo> serviceInfoCollection = instances.stream().map(instance -> {
                     ServiceInfo serviceInfo = new ServiceInfo();
                     serviceInfo.setServiceName(instance.getServiceName());
-                    serviceInfo.setServiceAddress(instance.getIp());
+                    serviceInfo.setServiceHost(instance.getIp());
                     serviceInfo.setServicePort(instance.getPort());
                     return serviceInfo;
                 }).collect(Collectors.toList());

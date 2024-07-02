@@ -6,7 +6,7 @@ import lombok.Data;
 public class ServiceInfo {
     private String serviceName;
 
-    private String serviceAddress;
+    private String serviceHost;
 
     private Integer servicePort;
 

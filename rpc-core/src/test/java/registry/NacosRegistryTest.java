@@ -7,16 +7,18 @@ import com.better.registryanddiscovery.registry.impl.NacosRegistry;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Scanner;
+
 public class NacosRegistryTest {
     ServiceInfo serviceInfo = new ServiceInfo();
     Instance instance = new Instance();
 
     @Before
     public void prepareInfo(){
-        serviceInfo.setServiceName("test");
-        serviceInfo.setServicePort(8800);
-        serviceInfo.setServiceAddress("127.0.0.1:8800");
-        serviceInfo.setVersion("1");
+        serviceInfo.setServiceName("Fooo");
+        serviceInfo.setServicePort(8080);
+        serviceInfo.setServiceHost("127.0.0.1");
+        serviceInfo.setVersion("1.0");
 
 //        Map map = ServiceInfoUtils.toMap(serviceInfo);
 //        instance.setPort(8800);
@@ -46,7 +48,9 @@ public class NacosRegistryTest {
 //            nacosRegistry.register(serviceInfo);
 
 
-            Thread.sleep(1000);
+            Scanner scanner = new Scanner(System.in);
+            scanner.nextLine();
+            Thread.sleep(10000000);
 
             NacosDiscovery nacosDiscovery = new NacosDiscovery("127.0.0.1:8848");
             System.out.println(nacosDiscovery.getServices("test"));
@@ -55,7 +59,7 @@ public class NacosRegistryTest {
             ServiceInfo serviceInfo1 = new ServiceInfo();
             serviceInfo1.setServiceName("test");
             serviceInfo1.setServicePort(8801);
-            serviceInfo1.setServiceAddress("127.0.0.1:8801");
+            serviceInfo1.setServiceHost("127.0.0.1");
             serviceInfo1.setVersion("1");
 //            nacosRegistry.register(serviceInfo1);
             NacosRegistry nacosRegistry1 = new NacosRegistry("127.0.0.1:8848");

@@ -30,7 +30,7 @@ public class NacosRegistry implements ServiceRegistry {
     @Override
     public void register(ServiceInfo serviceInfo) {
         Instance instance = new Instance();
-        instance.setIp(serviceInfo.getServiceAddress());
+        instance.setIp(serviceInfo.getServiceHost());
         instance.setPort(serviceInfo.getServicePort());
         instance.setServiceName(serviceInfo.getServiceName());
         instance.setHealthy(true);
@@ -39,9 +39,11 @@ public class NacosRegistry implements ServiceRegistry {
         Map metaData = ServiceInfoUtils.toMap(serviceInfo);
         instance.setMetadata(metaData);
 
+        String registryKey = ServiceInfoUtils.serviceKey(serviceInfo.getServiceName(),serviceInfo.getVersion());
+
         try {
-            namingService.registerInstance(serviceInfo.getServiceName(), instance);
-            log.info("Successfully registered service:" + serviceInfo.getServiceName());
+            namingService.registerInstance(registryKey, instance);
+            log.info("Successfully registered service:" + registryKey);
         } catch (NacosException e) {
             log.debug("nacos register error", e);
             throw new RuntimeException(e);
@@ -51,7 +53,7 @@ public class NacosRegistry implements ServiceRegistry {
     @Override
     public void unRegister(ServiceInfo serviceInfo) {
         Instance instance = new Instance();
-        instance.setIp(serviceInfo.getServiceAddress());
+        instance.setIp(serviceInfo.getServiceHost());
         instance.setPort(serviceInfo.getServicePort());
         instance.setServiceName(serviceInfo.getServiceName());
         instance.setHealthy(true);

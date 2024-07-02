@@ -5,6 +5,8 @@ import com.better.exceptions.SerializeException;
 import com.better.factories.SerializerFactory;
 import com.better.pojos.ServiceInfo;
 import com.better.protocol.MessageHeader;
+import com.better.registryanddiscovery.discovery.impl.NacosDiscovery;
+import com.better.test.Fooo;
 import com.better.utils.ServiceInfoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import org.junit.Test;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -24,7 +27,7 @@ public class test {
     @Test
     public void test() {
         ServiceInfo serviceInfo = new ServiceInfo();
-        serviceInfo.setServiceAddress("127.0.0.1");
+        serviceInfo.setServiceHost("127.0.0.1");
         serviceInfo.setServicePort(8888);
         serviceInfo.setServiceName("test");
         serviceInfo.setVersion("1");
@@ -33,6 +36,20 @@ public class test {
         for (Object key : map.keySet()) {
             System.out.println(key + ":" + map.get(key) + "\nclass:" + map.get(key).getClass());
         }
+    }
+
+    @Test
+    public void testString(){
+        String servicename = ServiceInfoUtils.getServiceNameByInterface(Fooo.class, "1.0");
+        System.out.println(servicename);
+
+    }
+
+    @Test
+    public void testDiscovery(){
+        NacosDiscovery nacosDiscovery = new NacosDiscovery("127.0.0.1:8848");
+        List<ServiceInfo> services = nacosDiscovery.getServices("Fooo-1.0");
+        services.forEach(System.out::println);
     }
 
     @Test

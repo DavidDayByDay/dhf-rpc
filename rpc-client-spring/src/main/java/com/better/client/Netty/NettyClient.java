@@ -46,6 +46,12 @@ public class NettyClient implements Client {
                         pipeline.addLast(new SharableMessageCodec());
                         //rpc事件处理器,在客户端应该添加的是响应（response）信息处理器
                         pipeline.addLast(new RpcResponseHandler());
+                        pipeline.addLast(new ChannelInboundHandlerAdapter() {
+                            @Override
+                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+                                System.out.println(msg);
+                            }
+                        });
                     }
                 });
         //到此，bootstrap构造完成
@@ -144,7 +150,7 @@ public class NettyClient implements Client {
         //等待接受rpc调用产生的响应结果
         try {
             if(timeOut == null && timeOut <= 0) {
-                promise.await();
+                promise.await(500000,TimeUnit.MILLISECONDS);
             }else {
                 promise.await(timeOut, TimeUnit.MILLISECONDS);
             }
@@ -156,13 +162,14 @@ public class NettyClient implements Client {
                 }
             }else {
                 if (promise.cause() == null){
-                    promise.setFailure(new RpcException("fail to get rpc response,and remote failed reason unknown!"));
+                    promise.setFailure(new RpcException("fail to get rpc response in limited time " + timeOut +" milliseconds ,and remote failed reason unknown!"));
                 }
                 log.debug("rpc failed when try to get result from promise!");
             }
 
         }catch (Exception e){
             log.debug("something wrong when wait for promise to complete! {}",e.getMessage());
+            throw new RpcException("something wrong when wait for promise to complete!",e);
         }
         return null;
     }

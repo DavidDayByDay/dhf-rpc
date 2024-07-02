@@ -61,7 +61,7 @@ public class RpcRequestMessageMaker {
 
 
         rpcMessageWrapper.setRpcMessage(rpcMessage);
-        rpcMessageWrapper.setHost(serviceInfo.getServiceAddress());
+        rpcMessageWrapper.setHost(serviceInfo.getServiceHost());
         rpcMessageWrapper.setPort(serviceInfo.getServicePort());
         rpcMessageWrapper.setTimeOut(properties.getTimeOut());
 

@@ -12,11 +12,11 @@ public class RpcClientProperties {
     private Integer timeOut;
 
     public RpcClientProperties() {
-        this.loadbalance = "random";
-        this.serializerType = "HESSIAN";
+        this.loadbalance = "RoundRobin";
+        this.serializerType = "JDK";
         this.connnection = "netty";
         this.registry = "nacos";
-        this.registryAddress = "127.0.0.1:2181";
+        this.registryAddress = "127.0.0.1:8848";
         this.timeOut = 5000;
     }
 

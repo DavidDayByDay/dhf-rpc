@@ -28,5 +28,11 @@ public class ServiceInfoUtils {
         ServiceInfo serviceInfo = gson.fromJson(gson.toJson(map), ServiceInfo.class);
         return serviceInfo;
     }
+    public static <T> String getServiceNameByInterface(Class<T> interfaceClass, String version) {
+        String fullName = interfaceClass.getName();
+        String name = fullName.substring(fullName.lastIndexOf(".") + 1);
+        String key = ServiceInfoUtils.serviceKey(name, version);
+        return key;
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.better.handler;
 
 import com.better.client.Client;
+import com.better.pojos.ResponseMessage;
 import com.better.properties.RpcClientProperties;
 import com.better.protocol.RpcMessage;
 import com.better.registryanddiscovery.discovery.ServiceDiscovery;
@@ -33,8 +34,10 @@ public class JDKProxyHandler implements InvocationHandler {
         //2.send rpc
         RpcMessage response = client.sendRpcRequest(rpcMessageWrapper);
         //todo 3.deal with response to adapt the correct return value of the method
+        ResponseMessage messageBody = (ResponseMessage) response.getMessageBody();
+        Object result = messageBody.getResponse();
 
-        return null;
+        return result;
     }
 }
 

@@ -18,7 +18,7 @@ public class NacosInfoTest {
     public void prepareInfo(){
         serviceInfo.setServiceName("test");
         serviceInfo.setServicePort(8800);
-        serviceInfo.setServiceAddress("127.0.0.1:8800");
+        serviceInfo.setServiceHost("127.0.0.1");
         serviceInfo.setVersion("1");
 
         Map map = ServiceInfoUtils.toMap(serviceInfo);

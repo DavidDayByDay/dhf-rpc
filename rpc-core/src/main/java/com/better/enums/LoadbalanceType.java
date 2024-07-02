@@ -23,7 +23,7 @@ public enum LoadbalanceType {
     public static LoadBalance parseByName(String name){
         if(name.equalsIgnoreCase("ConsistentHash")){
             return null;
-        }else if (name.equalsIgnoreCase("RoudRobin")){
+        }else if (name.equalsIgnoreCase("RoundRobin")){
             return new RoundRobin();
         }else if (name.equalsIgnoreCase("Random")){
             return null;
