@@ -2,7 +2,7 @@ package com.better.server.netty;
 
 import com.better.codec.DefaultLengthFieldFrameDecoder;
 import com.better.codec.SharableMessageCodec;
-import com.better.server.Server;
+import com.better.server.RpcServer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -13,15 +13,16 @@ import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class NettyServer implements Server {
+public class NettyRpcServer implements RpcServer {
     private final NioEventLoopGroup bossGroup = new NioEventLoopGroup();
     private final NioEventLoopGroup workerGroup = new NioEventLoopGroup();
     private final ServerBootstrap serverBootstrap;
+    private ChannelFuture channelFuture;
     private final String host;
     private final int port;
 
 
-    public NettyServer(String host, int port) {
+    public NettyRpcServer(String host, int port) {
         this.host = host;
         this.port = port;
         serverBootstrap = new ServerBootstrap()
@@ -40,7 +41,7 @@ public class NettyServer implements Server {
                         ChannelPipeline pipeline = socketChannel.pipeline();
                         pipeline.addLast(new DefaultLengthFieldFrameDecoder());
                         pipeline.addLast(new SharableMessageCodec());
-                        pipeline.addLast(new NettyRpcResponseHandler());
+                        pipeline.addLast(new NettyRpcRequestHandler());
                     }
                 });
     }
@@ -58,13 +59,14 @@ public class NettyServer implements Server {
     @Override
     public void start() {
         try {
-            ChannelFuture channelFuture = serverBootstrap.bind(host, port);
-//            channelFuture.addListener(new ChannelFutureListener() {
-//                @Override
-//                public void operationComplete(ChannelFuture channelFuture) throws Exception {
-//                    log.debug("successfully started server, and the host: {}, port: {}", host, port);
-//                }
-//            });
+            channelFuture = serverBootstrap.bind(host, port).sync();
+            channelFuture.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                    log.debug("successfully started server, and the host: {}, port: {}", host, port);
+                }
+            });
+            channelFuture.channel().closeFuture().sync();
             channelFuture.channel().closeFuture().addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture channelFuture) throws Exception {
@@ -72,11 +74,14 @@ public class NettyServer implements Server {
                 }
             });
 
+
+
         } catch (Exception e) {
             log.error("something wrong when start server! port:{}", e.getMessage());
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
+            log.debug("groups stop");
         }
 
     }

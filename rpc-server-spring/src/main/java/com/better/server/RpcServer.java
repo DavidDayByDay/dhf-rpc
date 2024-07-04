@@ -1,5 +1,5 @@
 package com.better.server;
 
-public interface Server {
+public interface RpcServer {
     public void start();
 }

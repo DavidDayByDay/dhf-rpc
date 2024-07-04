@@ -1,6 +1,6 @@
 package com.better.utils;
 
-import com.better.pojos.ServiceInfo;
+import com.better.pojos.ServiceRegisterInfo;
 import com.google.gson.Gson;
 
 import java.util.Map;
@@ -17,26 +17,28 @@ public class ServiceInfoUtils {
        return String.join("-",serviceName,version);
     }
 
-    public static String serviceKey(ServiceInfo serviceInfo){
-        return serviceKey(serviceInfo.getServiceName(),serviceInfo.getVersion());
+    public static String serviceKey(ServiceRegisterInfo serviceRegisterInfo){
+        return serviceKey(serviceRegisterInfo.getServiceNameAsInterface(), serviceRegisterInfo.getVersion());
     }
 
-    public static Map toMap(ServiceInfo serviceInfo) {
-        Map map = gson.fromJson(gson.toJson(serviceInfo), Map.class);
+    public static Map toMap(ServiceRegisterInfo serviceRegisterInfo) {
+        Map map = gson.fromJson(gson.toJson(serviceRegisterInfo), Map.class);
         //gson 会将字符数字转化为double
-        map.put("servicePort", serviceInfo.getServicePort().toString());
+        map.put("servicePort", serviceRegisterInfo.getServicePort().toString());
         return map;
     }
 
-    public static ServiceInfo toServiceInfo(Map map) {
-        ServiceInfo serviceInfo = gson.fromJson(gson.toJson(map), ServiceInfo.class);
-        return serviceInfo;
+    public static ServiceRegisterInfo toServiceInfo(Map map) {
+        ServiceRegisterInfo serviceRegisterInfo = gson.fromJson(gson.toJson(map), ServiceRegisterInfo.class);
+        return serviceRegisterInfo;
     }
-    public static <T> String getServiceNameByInterface(Class<T> interfaceClass, String version) {
+
+    //约定的注册服务命名方式--client和server得到的接口名默认是相同的否则应该手动指定相同的两端发现和注册的服务命名
+    public static <T> String getServiceNameByInterface(Class<T> interfaceClass) {
         String fullName = interfaceClass.getName();
         String name = fullName.substring(fullName.lastIndexOf(".") + 1);
-        String key = ServiceInfoUtils.serviceKey(name, version);
-        return key;
+//        String key = ServiceInfoUtils.serviceKey(name, version);
+        return name;
     }
 
 }

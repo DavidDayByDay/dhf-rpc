@@ -6,8 +6,8 @@ import com.better.enums.MessageType;
 import com.better.enums.SerializerType;
 import com.better.exceptions.MessageException;
 import com.better.pojos.RequestMessage;
-import com.better.pojos.ServiceInfo;
-import com.better.config.RpcClientProperties;
+import com.better.pojos.ServiceRegisterInfo;
+import com.better.config.ClientConfig;
 import com.better.protocol.MessageHeader;
 import com.better.protocol.RpcMessage;
 import com.better.registryanddiscovery.discovery.ServiceDiscovery;
@@ -30,9 +30,9 @@ public class RpcRequestMessageMaker {
      * @param args
      * @return 返回的requestMessage还缺少要远程调用的serviceName
      */
-    public static RpcMessageWrapper makeRpcRequestMessageWrapper(ServiceDiscovery serviceDiscovery,Method method, Object[] args, String serviceName, RpcClientProperties properties) throws MessageException {
+    public static RpcMessageWrapper makeRpcRequestMessageWrapper(ServiceDiscovery serviceDiscovery,Method method, Object[] args, String serviceName, ClientConfig properties) throws MessageException {
         //1.rpcMessage
-        Class<?>[] parameters = Arrays.stream(method.getParameters()).map(parameter -> parameter.getClass()).toArray(Class<?>[]::new);
+        Class<?>[] parameters = Arrays.stream(method.getParameters()).map(parameter -> parameter.getParameterizedType()).toArray(Class<?>[]::new);
         RequestMessage requestMessage = new RequestMessage();
         requestMessage.setMethodName(method.getName());
         requestMessage.setParameterTypes(parameters);
@@ -57,12 +57,12 @@ public class RpcRequestMessageMaker {
 
         //2.wrapper
         RpcMessageWrapper rpcMessageWrapper = new RpcMessageWrapper();
-        ServiceInfo serviceInfo = serviceDiscovery.discover(serviceName, LoadbalanceType.parseByName(properties.getLoadbalance()));
+        ServiceRegisterInfo serviceRegisterInfo = serviceDiscovery.discover(serviceName, LoadbalanceType.parseByName(properties.getLoadbalance()));
 
 
         rpcMessageWrapper.setRpcMessage(rpcMessage);
-        rpcMessageWrapper.setHost(serviceInfo.getServiceHost());
-        rpcMessageWrapper.setPort(serviceInfo.getServicePort());
+        rpcMessageWrapper.setHost(serviceRegisterInfo.getServiceHost());
+        rpcMessageWrapper.setPort(serviceRegisterInfo.getServicePort());
         rpcMessageWrapper.setTimeOut(properties.getTimeOut());
 
         return rpcMessageWrapper;

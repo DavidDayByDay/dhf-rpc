@@ -1,7 +1,7 @@
 package com.better.registryanddiscovery.discovery;
 
 import com.better.loadbalance.LoadBalance;
-import com.better.pojos.ServiceInfo;
+import com.better.pojos.ServiceRegisterInfo;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ public interface ServiceDiscovery {
      * @param serviceName
      * @return 一个选定的服务
      */
-    ServiceInfo discover(String serviceName, LoadBalance loadBalance);
+    ServiceRegisterInfo discover(String serviceName, LoadBalance loadBalance);
 
-    List<ServiceInfo> getServices(String serviceName);
+    List<ServiceRegisterInfo> getServices(String serviceName);
 
     void destroy();
 

@@ -1,6 +1,6 @@
 package com.better.loadbalance;
 
-import com.better.pojos.ServiceInfo;
+import com.better.pojos.ServiceRegisterInfo;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * 负载均衡策略
  */
 public interface LoadBalance {
-    ServiceInfo select(List<ServiceInfo> services);
+    ServiceRegisterInfo select(List<ServiceRegisterInfo> services);
 
-//    ServiceInfo doSelect(List<ServiceInfo> services);
+//    ServiceRegisterInfo doSelect(List<ServiceRegisterInfo> services);
 }

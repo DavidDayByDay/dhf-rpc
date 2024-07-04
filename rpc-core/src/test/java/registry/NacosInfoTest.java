@@ -1,7 +1,7 @@
 package registry;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
-import com.better.pojos.ServiceInfo;
+import com.better.pojos.ServiceRegisterInfo;
 import com.better.registryanddiscovery.registry.impl.NacosRegistry;
 import com.better.utils.ServiceInfoUtils;
 import org.junit.Before;
@@ -10,21 +10,21 @@ import org.junit.Test;
 import java.util.Map;
 
 public class NacosInfoTest {
-    ServiceInfo serviceInfo = new ServiceInfo();
-    ServiceInfo serviceInfo1 = new ServiceInfo();
+    ServiceRegisterInfo serviceRegisterInfo = new ServiceRegisterInfo();
+    ServiceRegisterInfo serviceRegisterInfo1 = new ServiceRegisterInfo();
     Instance instance = new Instance();
 
     @Before
     public void prepareInfo(){
-        serviceInfo.setServiceName("test");
-        serviceInfo.setServicePort(8800);
-        serviceInfo.setServiceHost("127.0.0.1");
-        serviceInfo.setVersion("1");
+        serviceRegisterInfo.setServiceNameAsInterface("test");
+        serviceRegisterInfo.setServicePort(8800);
+        serviceRegisterInfo.setServiceHost("127.0.0.1");
+        serviceRegisterInfo.setVersion("1");
 
-        Map map = ServiceInfoUtils.toMap(serviceInfo);
+        Map map = ServiceInfoUtils.toMap(serviceRegisterInfo);
         instance.setMetadata(map);
-        ServiceInfo serviceInfo1 = ServiceInfoUtils.toServiceInfo(map);
-        System.out.println(serviceInfo1);
+        ServiceRegisterInfo serviceRegisterInfo1 = ServiceInfoUtils.toServiceInfo(map);
+        System.out.println(serviceRegisterInfo1);
 
     }
 
@@ -32,10 +32,10 @@ public class NacosInfoTest {
     public void test() {
         NacosRegistry nacosRegistry = new NacosRegistry("127.0.0.1:8848");
 
-        nacosRegistry.register(serviceInfo);
+        nacosRegistry.register(serviceRegisterInfo);
         try {
             Thread.sleep(5000);
-            nacosRegistry.unRegister(serviceInfo);
+            nacosRegistry.unRegister(serviceRegisterInfo);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -43,7 +43,7 @@ public class NacosInfoTest {
 
     @Test
     public void test2(){
-        Map map = ServiceInfoUtils.toMap(serviceInfo);
+        Map map = ServiceInfoUtils.toMap(serviceRegisterInfo);
         for(Object key : map.keySet()){
             System.out.println(key+":"+map.get(key) + "\n"+ map.get(key).getClass());
         }

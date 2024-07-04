@@ -62,6 +62,14 @@ public class TestServer {
             }
         });
 
+        channelActive.channel().closeFuture().addListener(new ChannelFutureListener() {
+
+            @Override
+            public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                log.debug("close channel");
+            }
+        });
+
 
 
     }

@@ -11,9 +11,9 @@
     <modules>
         <module>rpc-core</module>
         <module>rpc-client-test</module>
-        <module>rpc-server-test</module>
+        <module>rpc-Server-test</module>
         <module>rpc-client-spring</module>
-        <module>rpc-server-spring</module>
+        <module>rpc-Server-spring</module>
     </modules>
 
     <properties>

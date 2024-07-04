@@ -6,7 +6,7 @@ import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.listener.NamingEvent;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.better.loadbalance.LoadBalance;
-import com.better.pojos.ServiceInfo;
+import com.better.pojos.ServiceRegisterInfo;
 import com.better.registryanddiscovery.discovery.ServiceDiscovery;
 import com.better.utils.ServiceInfoUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class NacosDiscovery implements ServiceDiscovery {
     private NamingService namingService;
     //一个本地的服务缓存列表
-    private final Map<String, List<ServiceInfo>> serviceCacheMap = new HashMap<>();
+    private final Map<String, List<ServiceRegisterInfo>> serviceCacheMap = new HashMap<>();
 
     public NacosDiscovery(String serverAddress){
         try {
@@ -41,28 +41,28 @@ public class NacosDiscovery implements ServiceDiscovery {
     }
 
     @Override
-    public ServiceInfo discover(String serviceName, LoadBalance loadBalance) {
+    public ServiceRegisterInfo discover(String serviceName, LoadBalance loadBalance) {
         return loadBalance.select(getServices(serviceName));
     }
 
     @Override
-    public List<ServiceInfo> getServices(String serviceName) {
+    public List<ServiceRegisterInfo> getServices(String serviceName) {
         try {
             //判断本地缓存中是否存在服务
             if (serviceCacheMap.containsKey(serviceName)) {
                 return serviceCacheMap.get(serviceName);
             }else {
                 List<Instance> instances = namingService.getAllInstances(serviceName);
-                List<ServiceInfo> serviceInfoCollection = instances.stream().map(instance -> {
-                    ServiceInfo serviceInfo = new ServiceInfo();
-                    serviceInfo.setServiceName(instance.getServiceName());
-                    serviceInfo.setServiceHost(instance.getIp());
-                    serviceInfo.setServicePort(instance.getPort());
-                    return serviceInfo;
+                List<ServiceRegisterInfo> serviceRegisterInfoCollection = instances.stream().map(instance -> {
+                    ServiceRegisterInfo serviceRegisterInfo = new ServiceRegisterInfo();
+                    serviceRegisterInfo.setServiceNameAsInterface(instance.getServiceName());
+                    serviceRegisterInfo.setServiceHost(instance.getIp());
+                    serviceRegisterInfo.setServicePort(instance.getPort());
+                    return serviceRegisterInfo;
                 }).collect(Collectors.toList());
 
                 //更新本地缓存
-                serviceCacheMap.put(serviceName,serviceInfoCollection);
+                serviceCacheMap.put(serviceName, serviceRegisterInfoCollection);
                 log.info("find all service instances and cached");
 
                 //注册监听事件

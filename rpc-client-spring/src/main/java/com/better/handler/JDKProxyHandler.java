@@ -2,7 +2,7 @@ package com.better.handler;
 
 import com.better.client.Client;
 import com.better.pojos.ResponseMessage;
-import com.better.config.RpcClientProperties;
+import com.better.config.ClientConfig;
 import com.better.protocol.RpcMessage;
 import com.better.registryanddiscovery.discovery.ServiceDiscovery;
 import com.better.utils.RpcRequestMessageMaker;
@@ -17,12 +17,12 @@ import java.lang.reflect.Method;
 public class JDKProxyHandler implements InvocationHandler {
     private Client client;
     private ServiceDiscovery serviceDiscovery;
-    private RpcClientProperties properties;
+    private ClientConfig config;
     private String serviceName;
 
-    public JDKProxyHandler(Client client, RpcClientProperties properties, String serviceName, ServiceDiscovery serviceDiscovery) {
+    public JDKProxyHandler(Client client, ClientConfig properties, String serviceName, ServiceDiscovery serviceDiscovery) {
         this.client = client;
-        this.properties = properties;
+        this.config = properties;
         this.serviceName = serviceName;
         this.serviceDiscovery = serviceDiscovery;
     }
@@ -30,7 +30,7 @@ public class JDKProxyHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         //1.rpcMessageWrapper
-        RpcMessageWrapper rpcMessageWrapper = RpcRequestMessageMaker.makeRpcRequestMessageWrapper(serviceDiscovery, method, args, serviceName, properties);
+        RpcMessageWrapper rpcMessageWrapper = RpcRequestMessageMaker.makeRpcRequestMessageWrapper(serviceDiscovery, method, args, serviceName, config);
         //2.send rpc
         RpcMessage response = client.sendRpcRequest(rpcMessageWrapper);
         //todo 3.deal with response to adapt the correct return value of the method

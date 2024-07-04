@@ -1,7 +1,6 @@
 package com.better.factories;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,15 +10,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * 列入netty的channelProvider
  * key = name of class; value = instance
  */
+
+@Slf4j
 public class SingletonFactory {
     //class作为key太大了
     private static final Map<String,Object> OBEJECT_MAP = new ConcurrentHashMap<String, Object>();
-    private static final Logger log = LoggerFactory.getLogger(SingletonFactory.class);
 
     public static <T> T getInstance(Class<T> clazz){
+        //key = 全类名
         String name = clazz.getName();
         if(OBEJECT_MAP.containsKey(name)){
-            return (T)OBEJECT_MAP.get(name);
+            return (T) OBEJECT_MAP.get(name);
         }else {
             try {
                 T instance = clazz.getDeclaredConstructor().newInstance();

@@ -3,7 +3,8 @@ import com.better.enums.MessageStatus;
 import com.better.enums.SerializerType;
 import com.better.exceptions.SerializeException;
 import com.better.factories.SerializerFactory;
-import com.better.pojos.ServiceInfo;
+import com.better.factories.SingletonFactory;
+import com.better.pojos.ServiceRegisterInfo;
 import com.better.protocol.MessageHeader;
 import com.better.registryanddiscovery.discovery.impl.NacosDiscovery;
 import com.better.test.Fooo;
@@ -26,12 +27,12 @@ public class test {
 
     @Test
     public void test() {
-        ServiceInfo serviceInfo = new ServiceInfo();
-        serviceInfo.setServiceHost("127.0.0.1");
-        serviceInfo.setServicePort(8888);
-        serviceInfo.setServiceName("test");
-        serviceInfo.setVersion("1");
-        Map map = ServiceInfoUtils.toMap(serviceInfo);
+        ServiceRegisterInfo serviceRegisterInfo = new ServiceRegisterInfo();
+        serviceRegisterInfo.setServiceHost("127.0.0.1");
+        serviceRegisterInfo.setServicePort(8888);
+        serviceRegisterInfo.setServiceNameAsInterface("test");
+        serviceRegisterInfo.setVersion("1");
+        Map map = ServiceInfoUtils.toMap(serviceRegisterInfo);
         map.put("servicePort",8888);
         for (Object key : map.keySet()) {
             System.out.println(key + ":" + map.get(key) + "\nclass:" + map.get(key).getClass());
@@ -40,7 +41,8 @@ public class test {
 
     @Test
     public void testString(){
-        String servicename = ServiceInfoUtils.getServiceNameByInterface(Fooo.class, "1.0");
+        String servicename = ServiceInfoUtils.getServiceNameByInterface(Fooo.class);
+        servicename = ServiceInfoUtils.serviceKey(servicename,"1.0");
         System.out.println(servicename);
 
     }
@@ -48,14 +50,14 @@ public class test {
     @Test
     public void testDiscovery(){
         NacosDiscovery nacosDiscovery = new NacosDiscovery("127.0.0.1:8848");
-        List<ServiceInfo> services = nacosDiscovery.getServices("Fooo-1.0");
+        List<ServiceRegisterInfo> services = nacosDiscovery.getServices("Fooo-1.0");
         services.forEach(System.out::println);
     }
 
     @Test
     public void test1(){
         Map<Class<?>, Object> objectMap = new HashMap<Class<?>, Object>();
-        objectMap.put(ServiceInfo.class, new ServiceInfo());
+        objectMap.put(ServiceRegisterInfo.class, new ServiceRegisterInfo());
         objectMap.put(ServiceInfoUtils.class, new ServiceInfoUtils());
     }
 
@@ -109,5 +111,11 @@ public class test {
                 }
 
         }
+    }
+
+    @Test
+    public void testSingleton(){
+        NacosDiscovery instance = SingletonFactory.getInstance(NacosDiscovery.class);
+        System.out.println(instance);
     }
 }

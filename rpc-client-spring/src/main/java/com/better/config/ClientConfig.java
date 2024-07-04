@@ -3,7 +3,7 @@ package com.better.config;
 import lombok.Data;
 
 @Data
-public class RpcClientProperties {
+public class ClientConfig {
     private String serializerType;
     private String loadbalance;
     private String connnection;
@@ -11,7 +11,7 @@ public class RpcClientProperties {
     private String registryAddress;
     private Integer timeOut;
 
-    public RpcClientProperties() {
+    public ClientConfig() {
         this.loadbalance = "RoundRobin";
         this.serializerType = "JDK";
         this.connnection = "netty";

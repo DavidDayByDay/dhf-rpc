@@ -1,5 +1,5 @@
 package com.better.test;
 
 public interface Fooo {
-    public void foo();
+    public void foo(int q);
 }

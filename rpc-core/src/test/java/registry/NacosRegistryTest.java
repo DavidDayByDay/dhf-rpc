@@ -1,7 +1,7 @@
 package registry;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
-import com.better.pojos.ServiceInfo;
+import com.better.pojos.ServiceRegisterInfo;
 import com.better.registryanddiscovery.discovery.impl.NacosDiscovery;
 import com.better.registryanddiscovery.registry.impl.NacosRegistry;
 import org.junit.Before;
@@ -10,17 +10,17 @@ import org.junit.Test;
 import java.util.Scanner;
 
 public class NacosRegistryTest {
-    ServiceInfo serviceInfo = new ServiceInfo();
+    ServiceRegisterInfo serviceRegisterInfo = new ServiceRegisterInfo();
     Instance instance = new Instance();
 
     @Before
     public void prepareInfo(){
-        serviceInfo.setServiceName("Fooo");
-        serviceInfo.setServicePort(8080);
-        serviceInfo.setServiceHost("127.0.0.1");
-        serviceInfo.setVersion("1.0");
+        serviceRegisterInfo.setServiceNameAsInterface("Fooo");
+        serviceRegisterInfo.setServicePort(8080);
+        serviceRegisterInfo.setServiceHost("127.0.0.1");
+        serviceRegisterInfo.setVersion("1.0");
 
-//        Map map = ServiceInfoUtils.toMap(serviceInfo);
+//        Map map = ServiceInfoUtils.toMap(serviceRegisterInfo);
 //        instance.setPort(8800);
 //        instance.setIp("127.0.0.1");
 //        instance.setServiceName(map.get("serviceName").toString());
@@ -37,7 +37,7 @@ public class NacosRegistryTest {
                 @Override
                 public void run() {
                     try {
-                        nacosRegistry.register(serviceInfo);
+                        nacosRegistry.register(serviceRegisterInfo);
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
@@ -45,7 +45,7 @@ public class NacosRegistryTest {
             });
 
             thread.start();
-//            nacosRegistry.register(serviceInfo);
+//            nacosRegistry.register(serviceRegisterInfo);
 
 
             Scanner scanner = new Scanner(System.in);
@@ -56,14 +56,14 @@ public class NacosRegistryTest {
             System.out.println(nacosDiscovery.getServices("test"));
 
 
-            ServiceInfo serviceInfo1 = new ServiceInfo();
-            serviceInfo1.setServiceName("test");
-            serviceInfo1.setServicePort(8801);
-            serviceInfo1.setServiceHost("127.0.0.1");
-            serviceInfo1.setVersion("1");
-//            nacosRegistry.register(serviceInfo1);
+            ServiceRegisterInfo serviceRegisterInfo1 = new ServiceRegisterInfo();
+            serviceRegisterInfo1.setServiceNameAsInterface("test");
+            serviceRegisterInfo1.setServicePort(8801);
+            serviceRegisterInfo1.setServiceHost("127.0.0.1");
+            serviceRegisterInfo1.setVersion("1");
+//            nacosRegistry.register(serviceRegisterInfo1);
             NacosRegistry nacosRegistry1 = new NacosRegistry("127.0.0.1:8848");
-            nacosRegistry1.register(serviceInfo1);
+            nacosRegistry1.register(serviceRegisterInfo1);
 
             System.out.println(nacosDiscovery.getServices("test"));
 

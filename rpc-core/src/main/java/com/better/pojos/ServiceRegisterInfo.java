@@ -3,8 +3,8 @@ package com.better.pojos;
 import lombok.Data;
 
 @Data
-public class ServiceInfo {
-    private String serviceName;
+public class ServiceRegisterInfo {
+    private String serviceNameAsInterface;
 
     private String serviceHost;
 

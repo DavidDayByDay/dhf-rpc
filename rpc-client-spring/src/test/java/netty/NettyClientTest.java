@@ -1,7 +1,7 @@
 package netty;
 
 import com.better.client.Netty.NettyClient;
-import com.better.config.RpcClientProperties;
+import com.better.config.ClientConfig;
 import com.better.proxy.ProxyFactory;
 import com.better.registryanddiscovery.discovery.ServiceDiscovery;
 import com.better.registryanddiscovery.discovery.impl.NacosDiscovery;
@@ -20,10 +20,10 @@ public class NettyClientTest {
 
 //        client.sendRpcRequest(rpcMessageWrapper);
         ServiceDiscovery serviceDiscovery = new NacosDiscovery("127.0.0.1:8848");
-        RpcClientProperties properties = new RpcClientProperties();
+        ClientConfig properties = new ClientConfig();
         ProxyFactory proxyFactory = new ProxyFactory(serviceDiscovery, client, properties);
         Fooo foo = proxyFactory.makeProxy(Fooo.class, "1.0");
-        foo.foo();
+        foo.foo(9999);
 
 
         ServerSocket serverSocket = null;
