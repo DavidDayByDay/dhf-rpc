@@ -58,7 +58,7 @@ public class ServerAutoConfiguration {
 
     @Bean("registryService")
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "myrpc",name = "registry",havingValue = "zookeeper",matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "myrpc",name = "registry",havingValue = "zookeeper")
     public RegistryService zookeeperRegistryService(){
         return new ZookeeperRegistry(serverConfig.getRegistryAddress());
     }

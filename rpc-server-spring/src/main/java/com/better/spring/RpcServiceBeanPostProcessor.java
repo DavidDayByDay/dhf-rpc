@@ -32,7 +32,7 @@ public class RpcServiceBeanPostProcessor implements BeanPostProcessor ,CommandLi
     /**
      * @param bean     已经注册的原始Bean
      * @param beanName
-     * @return 放回值是增强后的Bean
+     * @return 返回值是增强后的Bean
      * @throws BeansException
      */
     @Override
@@ -52,13 +52,14 @@ public class RpcServiceBeanPostProcessor implements BeanPostProcessor ,CommandLi
             serviceRegisterInfo.setServiceNameAsInterface(serviceName);
             serviceRegisterInfo.setVersion(rpcService.version());
             serviceRegisterInfo.setServiceHost(serverConfig.getHost());
-            serviceRegisterInfo.setServiceHost(String.valueOf(serverConfig.getPort()));
+            serviceRegisterInfo.setServicePort(serverConfig.getPort());
             registryService.register(serviceRegisterInfo);
             log.info("the service is registered with name: {} and version: {}", serviceName, rpcService.version());
 
             //3.进行本地服务缓存
             LocalServiceProvider.putService(ServiceInfoUtils.serviceKey(serviceRegisterInfo),bean);
         }
+        //返回原始bean
         return bean;
     }
 
