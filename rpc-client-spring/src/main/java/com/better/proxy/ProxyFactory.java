@@ -27,13 +27,19 @@ public class ProxyFactory {
         this.config = config;
     }
 
-    public <T> T makeProxy(Class<T> interfaceClass, String version) {
-        String servicename = ServiceInfoUtils.serviceKey(ServiceInfoUtils.getServiceNameByInterface(interfaceClass),version);
+    //todo 修改proxyFactory的逻辑使得
+    public <T> T makeProxy(Class<T> interfaceClass, String version,boolean usingJDK) {
+//        String serviceName = ServiceInfoUtils.serviceKey(ServiceInfoUtils.getServiceNameByInterface(interfaceClass),version);
+        String serviceName = ServiceInfoUtils.serviceKey(interfaceClass.getName(),version);
 
-        return (T) PROXY_MAP.computeIfAbsent(servicename, k -> {
-            return Proxy.newProxyInstance(ProxyFactory.class.getClassLoader(), new Class[]{interfaceClass}, new JDKProxyHandler(
-                    client, config, servicename, serviceDiscovery));
-        });
+        //todo 添加cglib实现
+        if (usingJDK){
+            return (T) PROXY_MAP.computeIfAbsent(serviceName, k -> {
+                return Proxy.newProxyInstance(ProxyFactory.class.getClassLoader(), new Class[]{interfaceClass}, new JDKProxyHandler(
+                        client, config, serviceName, serviceDiscovery));
+            });
+        }
+        else return null;
     }
 
 

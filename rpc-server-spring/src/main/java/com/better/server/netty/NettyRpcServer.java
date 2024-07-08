@@ -60,10 +60,11 @@ public class NettyRpcServer implements RpcServer {
     public void start() {
         try {
             channelFuture = serverBootstrap.bind(host, port).sync();
+            log.debug("successfully started server, and the host: {}, port: {}", host, port);
             channelFuture.addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture channelFuture) throws Exception {
-                    log.debug("successfully started server, and the host: {}, port: {}", host, port);
+                    log.debug("successfully connected to channel:{}", channelFuture.channel());
                 }
             });
             channelFuture.channel().closeFuture().sync();
@@ -77,7 +78,7 @@ public class NettyRpcServer implements RpcServer {
 
 
         } catch (Exception e) {
-            log.error("something wrong when start server! port:{}", e.getMessage());
+            log.error("something wrong when start server! port:{},error: {}",port, e.getMessage());
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();

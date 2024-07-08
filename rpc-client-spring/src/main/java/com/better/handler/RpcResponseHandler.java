@@ -42,7 +42,7 @@ public class RpcResponseHandler {
                 promise.setFailure(exception);
             } else {
                 promise.setSuccess(rpcMessage);
-                log.debug("successfully get response for sequenceId: {}", sequenceId);
+                log.info("successfully get response for sequenceId: {}", sequenceId);
             }
         }
 

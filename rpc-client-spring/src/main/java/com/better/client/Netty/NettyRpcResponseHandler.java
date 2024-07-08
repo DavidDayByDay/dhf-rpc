@@ -19,7 +19,9 @@ public class NettyRpcResponseHandler extends SimpleChannelInboundHandler<RpcMess
             RpcResponseHandler.handle(rpcMessage);
         } finally {
             //显示地释放内存
-            ReferenceCountUtil.release(rpcMessage);
+            if (rpcMessage != null){
+                ReferenceCountUtil.release(rpcMessage);
+            }
         }
     }
 

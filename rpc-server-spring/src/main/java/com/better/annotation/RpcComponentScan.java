@@ -6,13 +6,17 @@ import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
 
+
+/**
+ * 扫描所有加了rpcService的bean
+ */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Import(RpcBeanDefinitionRegistry.class)
 public @interface RpcComponentScan {
 
-    @AliasFor("value")
+    @AliasFor("values")
     String[] basePackages() default {};
 
     @AliasFor("basePackages")

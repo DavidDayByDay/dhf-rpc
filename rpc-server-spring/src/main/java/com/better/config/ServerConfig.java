@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 @Data
-@ConfigurationProperties(prefix = "myrpc")
+@ConfigurationProperties(prefix = "rpc.server")
 public class ServerConfig {
     private String host;
     private int port;

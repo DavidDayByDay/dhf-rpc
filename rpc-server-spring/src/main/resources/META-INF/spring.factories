@@ -1,0 +1,3 @@
+# Auto Configuration
+#com.better.config.ServerAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\

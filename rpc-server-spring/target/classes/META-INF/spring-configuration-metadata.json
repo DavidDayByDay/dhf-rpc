@@ -1,0 +1,42 @@
+{
+  "groups": [
+    {
+      "name": "rpc.server",
+      "type": "com.better.config.ServerConfig",
+      "sourceType": "com.better.config.ServerConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "rpc.server.app-name",
+      "type": "java.lang.String",
+      "sourceType": "com.better.config.ServerConfig"
+    },
+    {
+      "name": "rpc.server.connection",
+      "type": "java.lang.String",
+      "sourceType": "com.better.config.ServerConfig"
+    },
+    {
+      "name": "rpc.server.host",
+      "type": "java.lang.String",
+      "sourceType": "com.better.config.ServerConfig"
+    },
+    {
+      "name": "rpc.server.port",
+      "type": "java.lang.Integer",
+      "sourceType": "com.better.config.ServerConfig"
+    },
+    {
+      "name": "rpc.server.registry",
+      "type": "java.lang.String",
+      "sourceType": "com.better.config.ServerConfig"
+    },
+    {
+      "name": "rpc.server.registry-address",
+      "type": "java.lang.String",
+      "sourceType": "com.better.config.ServerConfig"
+    }
+  ],
+  "hints": []
+}

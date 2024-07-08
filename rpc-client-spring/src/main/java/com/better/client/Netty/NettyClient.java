@@ -3,11 +3,10 @@ package com.better.client.Netty;
 import com.better.client.Client;
 import com.better.codec.DefaultLengthFieldFrameDecoder;
 import com.better.codec.SharableMessageCodec;
-import com.better.handler.RpcResponseHandler;
-import com.better.wrappers.RpcMessageWrapper;
 import com.better.exceptions.RpcException;
-import com.better.factories.SingletonFactory;
+import com.better.handler.RpcResponseHandler;
 import com.better.protocol.RpcMessage;
+import com.better.wrappers.RpcMessageWrapper;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -26,11 +25,11 @@ import java.util.concurrent.TimeUnit;
 public class NettyClient implements Client {
     private final Bootstrap bootstrap;
     private final EventLoopGroup group = new NioEventLoopGroup();
-    private final ChannelProvider channelProvider;
+//    private final ChannelProvider channelProvider;
 
 
     public NettyClient() {
-        this.channelProvider = SingletonFactory.getInstance(ChannelProvider.class);
+//        this.channelProvider = SingletonFactory.getInstance(ChannelProvider.class);
 
 
         bootstrap = new Bootstrap();
@@ -63,7 +62,7 @@ public class NettyClient implements Client {
      * 先查找channel缓存
      */
     public Channel getChannel(String host, int port){
-        Channel channel = channelProvider.getChannel(host, port);
+        Channel channel = ChannelProvider.getChannel(host, port);
 
         if (channel != null){
             return channel;
@@ -96,7 +95,7 @@ public class NettyClient implements Client {
                 log.info("Connected to " + host + ":" + port + " in async mode!");
                 if (future.isSuccess()) {
                     //到达这里，响应地址的channel一定不在缓存中
-                    channelProvider.setChannel(host,port,future.channel());
+                    ChannelProvider.setChannel(host,port,future.channel());
                     log.debug("successfully update channel cache and notified!");
                     //通知
                     channelCompletableFuture.complete(future.channel());
@@ -136,7 +135,7 @@ public class NettyClient implements Client {
 
         channel.writeAndFlush(rpcMessageWrapper.getRpcMessage()).addListener((ChannelFutureListener)future -> {
             if (future.isSuccess()) {
-                log.debug("successfully send rpc message to " + hostName + ":" + port + " in async mode!");
+                log.info("successfully send rpc message with sequence Id:{} to " + hostName + ":" + port + " in async mode!",rpcMessageWrapper.getRpcMessage().getMessageHeader().getId());
             }else {
                 log.error("fail to send rpcMessage to " + hostName + ":" + port + " in async mode!",future.cause());
                 promise.setFailure(future.cause());

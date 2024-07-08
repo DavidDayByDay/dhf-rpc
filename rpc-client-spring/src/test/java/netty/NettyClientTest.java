@@ -22,7 +22,7 @@ public class NettyClientTest {
         ServiceDiscovery serviceDiscovery = new NacosDiscovery("127.0.0.1:8848");
         ClientConfig properties = new ClientConfig();
         ProxyFactory proxyFactory = new ProxyFactory(serviceDiscovery, client, properties);
-        Fooo foo = proxyFactory.makeProxy(Fooo.class, "1.0");
+        Fooo foo = proxyFactory.makeProxy(Fooo.class, "1.0",true);
         foo.foo(9999);
 
 
@@ -38,4 +38,5 @@ public class NettyClientTest {
 //            System.out.println("hello foooooooo~~~");
 //        };
 //    }
+
 }

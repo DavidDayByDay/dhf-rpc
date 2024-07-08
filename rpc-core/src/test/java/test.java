@@ -3,7 +3,6 @@ import com.better.enums.MessageStatus;
 import com.better.enums.SerializerType;
 import com.better.exceptions.SerializeException;
 import com.better.factories.SerializerFactory;
-import com.better.factories.SingletonFactory;
 import com.better.pojos.ServiceRegisterInfo;
 import com.better.protocol.MessageHeader;
 import com.better.registryanddiscovery.discovery.impl.NacosDiscovery;
@@ -113,9 +112,5 @@ public class test {
         }
     }
 
-    @Test
-    public void testSingleton(){
-        NacosDiscovery instance = SingletonFactory.getInstance(NacosDiscovery.class);
-        System.out.println(instance);
-    }
+
 }

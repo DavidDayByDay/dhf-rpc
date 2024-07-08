@@ -27,14 +27,14 @@ public class ServerAutoConfiguration {
     @Bean("rpcServer")
     @Primary
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "myrpc",name = "connection",havingValue = "netty", matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "rpc.server",name = "connection",havingValue = "netty", matchIfMissing = true)
     public RpcServer rpcServer() {
         return new NettyRpcServer(serverConfig.getHost(), serverConfig.getPort());
     }
 
     @Bean("rpcServer")
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "myrpc",name = "connection",havingValue = "http")
+    @ConditionalOnProperty(prefix = "rpc.server",name = "connection",havingValue = "http")
     public RpcServer httpServer(){
         return new HttpRpcServer();
     }
@@ -42,7 +42,7 @@ public class ServerAutoConfiguration {
 
     @Bean("rpcServer")
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "myrpc",name = "connection",havingValue = "socket")
+    @ConditionalOnProperty(prefix = "rpc.server",name = "connection",havingValue = "socket")
     public RpcServer socketServer(){
         return new SocketServer();
     }
@@ -51,14 +51,14 @@ public class ServerAutoConfiguration {
     @Bean("registryService")
     @Primary
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "myrpc",name = "registry",havingValue = "nacos",matchIfMissing = true)
+    @ConditionalOnProperty(prefix = "rpc.server",name = "registry",havingValue = "nacos",matchIfMissing = true)
     public RegistryService nacosRegistryService(){
         return new NacosRegistry(serverConfig.getRegistryAddress());
     }
 
     @Bean("registryService")
     @ConditionalOnMissingBean
-    @ConditionalOnProperty(prefix = "myrpc",name = "registry",havingValue = "zookeeper")
+    @ConditionalOnProperty(prefix = "rpc.server",name = "registry",havingValue = "zookeeper")
     public RegistryService zookeeperRegistryService(){
         return new ZookeeperRegistry(serverConfig.getRegistryAddress());
     }

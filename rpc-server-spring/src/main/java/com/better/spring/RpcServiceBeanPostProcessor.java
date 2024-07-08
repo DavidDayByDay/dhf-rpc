@@ -2,6 +2,7 @@ package com.better.spring;
 
 import com.better.annotation.RpcService;
 import com.better.config.ServerConfig;
+import com.better.exceptions.RpcException;
 import com.better.pojos.ServiceRegisterInfo;
 import com.better.provider.LocalServiceProvider;
 import com.better.registryanddiscovery.registry.RegistryService;
@@ -16,7 +17,7 @@ import org.springframework.boot.CommandLineRunner;
  * rpcService Bean的后处理器，用于将已经扫描到的rpcService 注册到注册中心
  */
 @Slf4j
-public class RpcServiceBeanPostProcessor implements BeanPostProcessor ,CommandLineRunner {
+public class RpcServiceBeanPostProcessor implements BeanPostProcessor, CommandLineRunner {
     private final RegistryService registryService;
 
     private final ServerConfig serverConfig;
@@ -38,16 +39,28 @@ public class RpcServiceBeanPostProcessor implements BeanPostProcessor ,CommandLi
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         //1.判断该bean上是否有RpcService注解
-        boolean annotationPresent = bean.getClass().isAnnotationPresent(RpcService.class);
+        Class<?> aClass = bean.getClass();
+        boolean annotationPresent = aClass.isAnnotationPresent(RpcService.class);
         if (annotationPresent) {
             //2.注册对应的服务
             //拿到注解信息
-            RpcService rpcService = bean.getClass().getAnnotation(RpcService.class);
+            RpcService rpcService = aClass.getAnnotation(RpcService.class);
             //生成注册信息
             ServiceRegisterInfo serviceRegisterInfo = new ServiceRegisterInfo();
+            //获取提供的全限定接口名即服务名
             String serviceName = rpcService.serviceName();
             if ("".equals(serviceName)) {
-                serviceName = ServiceInfoUtils.getServiceNameByInterface(rpcService.annotationType());
+//                serviceName = ServiceInfoUtils.getServiceNameByInterface(aClass);
+                //获取要暴露的接口的全限定类名
+                serviceName = rpcService.serviceInterface().getName();
+                boolean equalsVoid = rpcService.serviceInterface().equals(Void.class);
+                if(equalsVoid){
+                    Class<?>[] interfaces = aClass.getInterfaces();
+                    if(interfaces.length > 1){
+                        throw new RpcException("the service name or interface to be exposed must be specified when more than one interface is implemented");
+                    }
+                    serviceName = interfaces[0].getName();
+                }
             }
             serviceRegisterInfo.setServiceNameAsInterface(serviceName);
             serviceRegisterInfo.setVersion(rpcService.version());
@@ -57,7 +70,7 @@ public class RpcServiceBeanPostProcessor implements BeanPostProcessor ,CommandLi
             log.info("the service is registered with name: {} and version: {}", serviceName, rpcService.version());
 
             //3.进行本地服务缓存
-            LocalServiceProvider.putService(ServiceInfoUtils.serviceKey(serviceRegisterInfo),bean);
+            LocalServiceProvider.putService(ServiceInfoUtils.serviceKey(serviceRegisterInfo), bean);
         }
         //返回原始bean
         return bean;
@@ -66,6 +79,7 @@ public class RpcServiceBeanPostProcessor implements BeanPostProcessor ,CommandLi
 
     /**
      * 有SpringBoot提供的开机自启动方法
+     *
      * @param args
      * @throws Exception
      */
@@ -73,15 +87,15 @@ public class RpcServiceBeanPostProcessor implements BeanPostProcessor ,CommandLi
     public void run(String... args) throws Exception {
         try {
             new Thread(() -> rpcServer.start()).start();
-            log.info("the service is started with host: {}, port: {} on spring boot!", serverConfig.getHost(),serverConfig.getPort());
+            log.info("the service is started with host: {}, port: {} on spring boot!", serverConfig.getHost(), serverConfig.getPort());
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                log.info("the service is closing...");
+                log.info("the service is closing...and all registered service will close");
                 registryService.destroy();
             }) {
             });
-        }catch (Exception e){
+        } catch (Exception e) {
 //            log.error("something went wrong when starting the service on spring boot!");
-            throw new RuntimeException("something went wrong when starting the service on spring boot!",e);
+            throw new RuntimeException("something went wrong when starting the service on spring boot!", e);
         }
 
 

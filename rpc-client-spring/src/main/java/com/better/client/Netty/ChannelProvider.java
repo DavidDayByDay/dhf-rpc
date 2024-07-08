@@ -13,10 +13,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * 2.获取缓存对象
  */
 public class ChannelProvider {
-    Map<String, Channel> channelMap = new ConcurrentHashMap<String, Channel>();
+    private  static Map<String, Channel> channelMap = new ConcurrentHashMap<String, Channel>();
 
     //检查缓存，并对channel进行活跃状态检查
-    public Channel getChannel(String hostName, Integer port) {
+    public static Channel getChannel(String hostName, Integer port) {
         String key = hostName + ":" + port;
         if(channelMap.containsKey(key)){
             Channel channel = channelMap.get(key);
@@ -29,15 +29,15 @@ public class ChannelProvider {
         return null;
     }
 
-    public Channel getChannel(InetSocketAddress inetSocketAddress) {
+    public static Channel getChannel(InetSocketAddress inetSocketAddress) {
         return getChannel(inetSocketAddress.getHostString(), inetSocketAddress.getPort());
     }
 
-    public void setChannel(String hostName, Integer port, Channel channel) {
+    public static void setChannel(String hostName, Integer port, Channel channel) {
         channelMap.put(hostName + ":" + port, channel);
     }
 
-    public void setChannel(InetSocketAddress inetSocketAddress, Channel channel) {
+    public static void setChannel(InetSocketAddress inetSocketAddress, Channel channel) {
         channelMap.put(inetSocketAddress.getHostString() + ":" + inetSocketAddress.getPort(), channel);
     }
 

@@ -10,10 +10,15 @@
     <packaging>pom</packaging>
     <modules>
         <module>rpc-core</module>
-        <module>rpc-client-test</module>
-        <module>rpc-Server-test</module>
+<!--        <module>rpc-client-test</module>-->
+<!--        <module>rpc-Server-test</module>-->
         <module>rpc-client-spring</module>
         <module>rpc-Server-spring</module>
+        <module>provider-api</module>
+        <module>rpc-client-spring-boot-starter</module>
+        <module>rpc-server-spring-boot-starter</module>
+        <module>Consumer</module>
+        <module>provider</module>
     </modules>
 
     <properties>
@@ -40,6 +45,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.32</version>
+            </dependency>
 
             <dependency>
                 <groupId>junit</groupId>
@@ -93,7 +103,7 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>${spring-boot.version}</version>
+                    <version>${spring-boot-version}</version>
                     <executions>
                         <execution>
                             <goals>

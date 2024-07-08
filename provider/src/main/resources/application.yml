@@ -1,0 +1,6 @@
+rpc:
+  server:
+    port: 8888
+
+server:
+  port: 8081

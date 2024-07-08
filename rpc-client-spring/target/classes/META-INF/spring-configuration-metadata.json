@@ -1,0 +1,42 @@
+{
+  "groups": [
+    {
+      "name": "rpc.client",
+      "type": "com.better.config.ClientConfig",
+      "sourceType": "com.better.config.ClientConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "rpc.client.connection",
+      "type": "java.lang.String",
+      "sourceType": "com.better.config.ClientConfig"
+    },
+    {
+      "name": "rpc.client.discovery",
+      "type": "java.lang.String",
+      "sourceType": "com.better.config.ClientConfig"
+    },
+    {
+      "name": "rpc.client.discovery-url",
+      "type": "java.lang.String",
+      "sourceType": "com.better.config.ClientConfig"
+    },
+    {
+      "name": "rpc.client.loadbalance",
+      "type": "java.lang.String",
+      "sourceType": "com.better.config.ClientConfig"
+    },
+    {
+      "name": "rpc.client.serializer-type",
+      "type": "java.lang.String",
+      "sourceType": "com.better.config.ClientConfig"
+    },
+    {
+      "name": "rpc.client.time-out",
+      "type": "java.lang.Integer",
+      "sourceType": "com.better.config.ClientConfig"
+    }
+  ],
+  "hints": []
+}
