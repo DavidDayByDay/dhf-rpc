@@ -25,11 +25,11 @@ import java.util.concurrent.TimeUnit;
 public class NettyClient implements Client {
     private final Bootstrap bootstrap;
     private final EventLoopGroup group = new NioEventLoopGroup();
-//    private final ChannelProvider channelProvider;
+//    private final NettyChannelProvider channelProvider;
 
 
     public NettyClient() {
-//        this.channelProvider = SingletonFactory.getInstance(ChannelProvider.class);
+//        this.channelProvider = SingletonFactory.getInstance(NettyChannelProvider.class);
 
 
         bootstrap = new Bootstrap();
@@ -62,7 +62,7 @@ public class NettyClient implements Client {
      * 先查找channel缓存
      */
     public Channel getChannel(String host, int port){
-        Channel channel = ChannelProvider.getChannel(host, port);
+        Channel channel = NettyChannelProvider.getChannel(host, port);
 
         if (channel != null){
             return channel;
@@ -95,7 +95,7 @@ public class NettyClient implements Client {
                 log.info("Connected to " + host + ":" + port + " in async mode!");
                 if (future.isSuccess()) {
                     //到达这里，响应地址的channel一定不在缓存中
-                    ChannelProvider.setChannel(host,port,future.channel());
+                    NettyChannelProvider.setChannel(host,port,future.channel());
                     log.debug("successfully update channel cache and notified!");
                     //通知
                     channelCompletableFuture.complete(future.channel());

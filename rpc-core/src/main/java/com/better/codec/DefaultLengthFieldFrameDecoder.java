@@ -2,6 +2,9 @@ package com.better.codec;
 
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 
+/**
+ * 使用netty的{@LengthFieldBasedFrameDecoder},是一个出入站处理器
+ */
 public class DefaultLengthFieldFrameDecoder extends LengthFieldBasedFrameDecoder {
     //default for the protocol
     public DefaultLengthFieldFrameDecoder(){

@@ -20,12 +20,11 @@ public class SerializerFactory {
                 case KRYO:
                     return new KryoSerializer();
                 case PROTOSTUFF:
-                    return new ProtobufSerializer();
+                    return new ProtoStuffSerializer();
             }
         } catch (MessageException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
-        return null;
+        throw new SerializeException("unknown serializer typeNum: " + serializerTypeNum);
     }
 }

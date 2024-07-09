@@ -13,8 +13,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageCodec;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,10 +22,10 @@ import java.util.List;
  * 编解码用的入站出站处理器
  * 可共享，内部的byteBuf不会保存其他请求的数据
  */
+@Slf4j
 @Sharable
 public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMessage> {
 
-    private static final Logger log = LoggerFactory.getLogger(SharableMessageCodec.class);
 
     // 出站处理器 rpcMessage --> byteBuf
     @Override
