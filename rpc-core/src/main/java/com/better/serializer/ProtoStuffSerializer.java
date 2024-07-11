@@ -15,8 +15,7 @@ public class ProtoStuffSerializer implements Serializer{
     public <T> byte[] serialize(T obj) {
         Schema<T> schema = (Schema<T>) RuntimeSchema.getSchema(obj.getClass());
         try {
-            byte[] byteArray = ProtostuffIOUtil.toByteArray(obj, schema, buffer);
-            return byteArray;
+            return ProtostuffIOUtil.toByteArray(obj, schema, buffer);
         }catch (Exception e){
             log.error(e.getMessage());
             throw new RuntimeException(e);
@@ -25,7 +24,7 @@ public class ProtoStuffSerializer implements Serializer{
 
     @Override
     public <T> T deserialize(byte[] data, Class<T> clazz) {
-        Schema<T> schema = (Schema<T>) RuntimeSchema.getSchema(clazz);
+        Schema<T> schema =  RuntimeSchema.getSchema(clazz);
         T message = schema.newMessage();
         ProtostuffIOUtil.mergeFrom(data,message,schema);
         return message;

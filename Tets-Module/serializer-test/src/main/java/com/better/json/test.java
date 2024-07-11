@@ -1,6 +1,6 @@
 package com.better.json;
 
-import com.better.registryanddiscovery.registry.RegistryService;
+import com.better.registry.RegistryService;
 import com.better.serializer.JSONSerializer;
 
 public class test {

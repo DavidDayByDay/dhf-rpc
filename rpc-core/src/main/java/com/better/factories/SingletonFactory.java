@@ -7,14 +7,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 单例工厂
- * 列入netty的channelProvider
+ * 例如netty的channelProvider
  * key = name of class; value = instance
- *
- * 目前，SingletonFactory只管理了一个ChannelProvider实例，当结合spring完全可以舍弃该factory
  */
 
 @Slf4j
-@Deprecated
+//@Deprecated
 public class SingletonFactory {
     //class作为key太大了
     private static final Map<String,Object> OBEJECT_MAP = new ConcurrentHashMap<String, Object>();

@@ -1,18 +1,13 @@
 package com.better.loadbalance.impl;
 
-import com.better.loadbalance.LoadBalance;
-import com.better.pojos.ServiceRegisterInfo;
+import com.better.loadbalance.AbstractLoadBalance;
+import com.better.protocol.messages.ServiceRegisterInfo;
 
 import java.util.List;
 
-public class RoundRobin implements LoadBalance {
+public class RoundRobin extends AbstractLoadBalance {
     @Override
-    public ServiceRegisterInfo select(List<ServiceRegisterInfo> services) {
-        return doSelect(services);
-    }
-
-    private ServiceRegisterInfo doSelect(List<ServiceRegisterInfo> services) {
-        //todo 抽象类
+    public ServiceRegisterInfo doSelect(List<ServiceRegisterInfo> services) {
         return services.get(0);
     }
 }

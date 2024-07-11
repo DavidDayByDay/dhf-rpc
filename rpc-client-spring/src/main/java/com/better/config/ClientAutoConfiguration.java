@@ -5,9 +5,9 @@ import com.better.client.Http.HttpClient;
 import com.better.client.Netty.NettyClient;
 import com.better.client.Socket.SocketClient;
 import com.better.proxy.ProxyFactory;
-import com.better.registryanddiscovery.discovery.ServiceDiscovery;
-import com.better.registryanddiscovery.discovery.impl.NacosDiscovery;
-import com.better.registryanddiscovery.discovery.impl.ZookeeperDiscovery;
+import com.better.discovery.ServiceDiscovery;
+import com.better.discovery.impl.NacosDiscovery;
+import com.better.discovery.impl.ZookeeperDiscovery;
 import com.better.spring.RpcDisposalBeanProcessor;
 import com.better.spring.RpcProxyBeanPostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +62,7 @@ public class ClientAutoConfiguration {
     @ConditionalOnMissingBean
     @ConditionalOnProperty(prefix = "rpc.client",name = "discovery",havingValue = "zookeeper")
     public ServiceDiscovery zookeeperDiscovery() {
-        return new ZookeeperDiscovery();
+        return new ZookeeperDiscovery(clientConfig.getDiscoveryUrl());
     }
 
     //proxyFactory

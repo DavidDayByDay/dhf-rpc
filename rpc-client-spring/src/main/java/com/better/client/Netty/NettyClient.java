@@ -24,15 +24,15 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class NettyClient implements Client {
     private final Bootstrap bootstrap;
-    private final EventLoopGroup group = new NioEventLoopGroup();
+    private final EventLoopGroup group;
 //    private final NettyChannelProvider channelProvider;
 
 
     public NettyClient() {
 //        this.channelProvider = SingletonFactory.getInstance(NettyChannelProvider.class);
-
-
+        group = new NioEventLoopGroup();
         bootstrap = new Bootstrap();
+
         bootstrap.group(group)
                 .channel(NioSocketChannel.class)
                 .handler(new ChannelInitializer<Channel>() {
@@ -148,7 +148,7 @@ public class NettyClient implements Client {
     private RpcMessage getRpcMessage(Integer timeOut, DefaultPromise<RpcMessage> promise) {
         //等待接受rpc调用产生的响应结果
         try {
-            if(timeOut == null && timeOut <= 0) {
+            if(timeOut == null || timeOut <= 0) {
                 promise.await(5000,TimeUnit.MILLISECONDS);
             }else {
                 promise.await(timeOut, TimeUnit.MILLISECONDS);

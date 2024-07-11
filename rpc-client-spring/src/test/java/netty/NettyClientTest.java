@@ -3,8 +3,8 @@ package netty;
 import com.better.client.Netty.NettyClient;
 import com.better.config.ClientConfig;
 import com.better.proxy.ProxyFactory;
-import com.better.registryanddiscovery.discovery.ServiceDiscovery;
-import com.better.registryanddiscovery.discovery.impl.NacosDiscovery;
+import com.better.discovery.ServiceDiscovery;
+import com.better.discovery.impl.NacosDiscovery;
 import com.better.test.Fooo;
 
 import java.net.ServerSocket;

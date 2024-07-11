@@ -6,8 +6,7 @@ import com.better.exceptions.SerializeException;
 import com.better.serializer.*;
 
 public class SerializerFactory {
-    public static final Serializer getSerializer(byte serializerTypeNum) throws SerializeException {
-
+    public static Serializer getSerializer(byte serializerTypeNum) throws SerializeException {
         try {
             SerializerType serializerType = SerializerType.parseByType(serializerTypeNum);
             switch (serializerType){

@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>serializer-test</module>
+        <module>tomcat-test</module>
     </modules>
 
     <properties>

@@ -3,9 +3,10 @@ package com.better.codec;
 import com.better.constants.MessageConstants;
 import com.better.enums.MessageType;
 import com.better.exceptions.MessageException;
+import com.better.exceptions.SerializeException;
 import com.better.factories.SerializerFactory;
-import com.better.pojos.RequestMessage;
-import com.better.pojos.ResponseMessage;
+import com.better.protocol.messages.RequestMessage;
+import com.better.protocol.messages.ResponseMessage;
 import com.better.protocol.MessageHeader;
 import com.better.protocol.RpcMessage;
 import com.better.serializer.Serializer;
@@ -29,7 +30,7 @@ public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMess
 
     // 出站处理器 rpcMessage --> byteBuf
     @Override
-    protected void encode(ChannelHandlerContext ctx, RpcMessage rpcMessage, List<Object> list) throws Exception {
+    protected void encode(ChannelHandlerContext ctx, RpcMessage rpcMessage, List<Object> list) throws SerializeException {
         //todo 每次调用都会声明一个ByteBuf --？是否使用了池化
         ByteBuf buf = ctx.alloc().buffer();
 
@@ -42,16 +43,21 @@ public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMess
         buf.writeInt(messageHeader.getId());
         Object message = rpcMessage.getMessageBody();
         //消息体序列化
-        //1.获取序列化方法
-        Serializer serializer = SerializerFactory.getSerializer(messageHeader.getSerializerType());
-        byte[] bytes = serializer.serialize(message);
-        //消息长度 int
-        int length = bytes.length;
-        buf.writeInt(length);
-        buf.writeBytes(bytes);
-        //完成消息写入并向下传递
-        log.debug("successfully encoded rpc message {}", rpcMessage);
-        list.add(buf);
+        try{
+            //1.获取序列化方法
+            Serializer serializer = SerializerFactory.getSerializer(messageHeader.getSerializerType());
+            byte[] bytes = serializer.serialize(message);
+            //消息长度 int
+            int length = bytes.length;
+            buf.writeInt(length);
+            buf.writeBytes(bytes);
+            //完成消息写入并向下传递
+            log.debug("successfully encoded rpc message {}", rpcMessage);
+            list.add(buf);
+        }catch (Exception e){
+            log.error("failed to encode rpc message {}", rpcMessage, e);
+            throw new SerializeException("failed to encode messgae: " + message.toString());
+        }
     }
 
 
@@ -98,28 +104,18 @@ public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMess
         //2.根据序列化算法反序列化
         Serializer serializer = SerializerFactory.getSerializer(serializerType);
         MessageType actualMessageType = MessageType.parseByType(messageType);
-        boolean isDone = false;
         switch (actualMessageType) {
-//            case REQUEST -> {
             case REQUEST:
                 RequestMessage request = serializer.deserialize(bytes, RequestMessage.class);
                 rpcMessage.setMessageBody(request);
-                isDone = true;
                 break;
-//            case RESPONSE -> {
             case RESPONSE:
                 ResponseMessage response = serializer.deserialize(bytes,ResponseMessage.class);
                 rpcMessage.setMessageBody(response);
-                isDone = true;
                 break;
-            //default-->HeartBeatMessage
             default:
-//            default -> {
-                if (isDone != true){
                     String heartBeatMessage = serializer.deserialize(bytes, String.class);
                     rpcMessage.setMessageBody(heartBeatMessage);
-                    isDone = true;
-                }
             }
         //传递
         log.debug("successfully decoded rpc message {}", rpcMessage);

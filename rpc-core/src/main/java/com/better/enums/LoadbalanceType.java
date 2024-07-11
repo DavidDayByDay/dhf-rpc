@@ -5,16 +5,16 @@ import com.better.loadbalance.impl.RoundRobin;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+@Getter
 @Slf4j
 public enum LoadbalanceType {
 
     Random((byte) 0),
-    RoudRobin((byte) 1),
+    RoundRobin((byte) 1),
     ConsistentHash((byte) 2);
 
 
-    @Getter
-    private byte type;
+    private final byte type;
 
     LoadbalanceType(byte type){
         this.type = type;

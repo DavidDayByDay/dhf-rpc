@@ -5,12 +5,12 @@ import com.better.enums.LoadbalanceType;
 import com.better.enums.MessageType;
 import com.better.enums.SerializerType;
 import com.better.exceptions.MessageException;
-import com.better.pojos.RequestMessage;
-import com.better.pojos.ServiceRegisterInfo;
+import com.better.protocol.messages.RequestMessage;
+import com.better.protocol.messages.ServiceRegisterInfo;
 import com.better.config.ClientConfig;
 import com.better.protocol.MessageHeader;
 import com.better.protocol.RpcMessage;
-import com.better.registryanddiscovery.discovery.ServiceDiscovery;
+import com.better.discovery.ServiceDiscovery;
 import com.better.wrappers.RpcMessageWrapper;
 
 import java.lang.reflect.Method;

@@ -1,7 +1,7 @@
 package com.better.protocol;
 
-import com.better.pojos.RequestMessage;
-import com.better.pojos.ResponseMessage;
+import com.better.protocol.messages.RequestMessage;
+import com.better.protocol.messages.ResponseMessage;
 import lombok.Data;
 
 /**

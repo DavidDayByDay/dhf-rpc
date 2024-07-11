@@ -1,8 +1,8 @@
 package com.better.config;
 
-import com.better.registryanddiscovery.registry.RegistryService;
-import com.better.registryanddiscovery.registry.impl.NacosRegistry;
-import com.better.registryanddiscovery.registry.impl.ZookeeperRegistry;
+import com.better.registry.RegistryService;
+import com.better.registry.impl.NacosRegistry;
+import com.better.registry.impl.ZookeeperRegistry;
 import com.better.server.RpcServer;
 import com.better.server.http.HttpRpcServer;
 import com.better.server.netty.NettyRpcServer;

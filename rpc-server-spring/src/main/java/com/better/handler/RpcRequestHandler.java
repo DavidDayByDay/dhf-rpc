@@ -1,6 +1,6 @@
 package com.better.handler;
 
-import com.better.pojos.RequestMessage;
+import com.better.protocol.messages.RequestMessage;
 import com.better.provider.LocalServiceProvider;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,11 +19,9 @@ public class RpcRequestHandler {
         //已实现的服务缓存在本地列表中
         String serviceName = request.getServiceName();
         Object o = LocalServiceProvider.getService(serviceName);
-//        String interfaceName = serviceName.substring(0,serviceName.lastIndexOf("-"));
         try {
             //约定了接口及其实现的命名规则
 //            Class<?> interfaceClass = Class.forName(interfaceName);
-            //todo 可以不需要cast
 //            Object o = interfaceClass.cast(localServiceCache.get(serviceName));
             Method declaredMethod = o.getClass().getDeclaredMethod(request.getMethodName(), request.getParameterTypes());
             declaredMethod.setAccessible(true);

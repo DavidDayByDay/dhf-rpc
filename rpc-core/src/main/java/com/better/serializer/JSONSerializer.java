@@ -18,8 +18,7 @@ public class JSONSerializer implements Serializer{
 
     @Override
     public <T> byte[] serialize(T obj) {
-        byte[] data = gson.toJson(obj).getBytes();
-        return data;
+        return gson.toJson(obj).getBytes();
     }
 
     @Override
@@ -37,8 +36,7 @@ public class JSONSerializer implements Serializer{
         public Class<?> deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext context) throws JsonParseException {
             String name = jsonElement.getAsString();
             try {
-                Class<?> aClass = Class.forName(name);
-                return aClass;
+                return Class.forName(name);
             } catch (ClassNotFoundException e) {
                 log.debug("ClassNotFoundException when deserialize in JSON for jsonElement: {}",jsonElement, e);
                 throw new RpcException(e.getMessage());

@@ -1,7 +1,7 @@
 package com.better.kryo;
 
 import com.better.hessian.Car;
-import com.better.pojos.RequestMessage;
+import com.better.protocol.messages.RequestMessage;
 import com.better.protocol.RpcMessage;
 import com.better.serializer.KryoSerializer;
 import com.better.test.Me;

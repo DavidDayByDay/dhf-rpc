@@ -6,9 +6,15 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 服务的本地缓存
+ */
 @Slf4j
 public class LocalServiceProvider {
 
+    /**
+     * 可能并多个线程同时修改（注册和取消注册）
+     */
     private static final Map<String, Object> localServiceCache = new ConcurrentHashMap<>();
 
     public static Object getService(String serviceName) {

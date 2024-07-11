@@ -3,7 +3,7 @@ package com.better.handler;
 import com.better.enums.MessageType;
 import com.better.exceptions.MessageException;
 import com.better.exceptions.RpcException;
-import com.better.pojos.ResponseMessage;
+import com.better.protocol.messages.ResponseMessage;
 import com.better.protocol.RpcMessage;
 import io.netty.util.concurrent.Promise;
 import lombok.extern.slf4j.Slf4j;

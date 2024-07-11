@@ -1,6 +1,6 @@
 package com.better.utils;
 
-import com.better.pojos.ServiceRegisterInfo;
+import com.better.protocol.messages.ServiceRegisterInfo;
 import com.google.gson.Gson;
 
 import java.util.Map;
