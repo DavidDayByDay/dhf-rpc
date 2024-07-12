@@ -1,11 +1,10 @@
-package com.better.loadbalance.impl;
 //参考： 负载均衡 https://cn.dubbo.apache.org/zh-cn/docsv2.7/dev/source/loadbalance/#23-consistenthashloadbalance
+package com.better.loadbalance.impl;
 
 import com.better.loadbalance.AbstractLoadBalance;
 import com.better.protocol.ServiceRegisterInfo;
 import com.better.protocol.messages.RequestMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -15,10 +14,10 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 public class ConsistentHash extends AbstractLoadBalance {
     //key = serviceName value = ServiceSelector 对该服务集群的选择器
     private static final Map<String,ServiceSelector> selectors = new ConcurrentHashMap<>();
-    private static final Logger log = LoggerFactory.getLogger(ConsistentHash.class);
 
 
     @Override

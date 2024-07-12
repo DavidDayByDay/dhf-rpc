@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 依次轮询
+ * 无权重依次轮询
  */
 public class RoundRobin extends AbstractLoadBalance {
     private static final AtomicInteger atomicInteger = new AtomicInteger(0);

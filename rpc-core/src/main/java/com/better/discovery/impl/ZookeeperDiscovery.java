@@ -26,7 +26,7 @@ import static com.better.constants.ZookeeperConstants.NAME_SPACE;
 @Slf4j
 public class ZookeeperDiscovery implements ServiceDiscovery {
     //一个本地的服务缓存列表,内部是cruator提供的serviceCache缓存实现,该实现会自动更新服务列表（已经注册了监听器）
-    private static final Map<String,ServiceCache<Object>> serviceCacheMap = new ConcurrentHashMap<>();
+    private static final Map<String, ServiceCache<Object>> serviceCacheMap = new ConcurrentHashMap<>();
     //发现服务用ExecutorService
     private final CloseableExecutorService zookeeperExecutorService = SingletonFactory.getInstance(ZkExecutorService.class).getExecutor();
 
@@ -61,14 +61,13 @@ public class ZookeeperDiscovery implements ServiceDiscovery {
 
     @Override
     public ServiceRegisterInfo discover(RequestMessage requestMessage, LoadBalance loadBalance) {
-        //todo
-        return getServices(requestMessage.getServiceName()).get(0);
+        return loadBalance.select(getServices(requestMessage.getServiceName()), requestMessage);
     }
 
     @Override
     public List<ServiceRegisterInfo> getServices(String serviceName) {
         if (serviceCacheMap.containsKey(serviceName)) {
-            return  toServiceRegisterInfo( serviceCacheMap.get(serviceName).getInstances());
+            return toServiceRegisterInfo(serviceCacheMap.get(serviceName).getInstances());
 
         } else {
             //每第一次进行服务发现时，为每个单独的服务创建本地缓存
@@ -90,10 +89,10 @@ public class ZookeeperDiscovery implements ServiceDiscovery {
 
     private List<ServiceRegisterInfo> toServiceRegisterInfo(List<ServiceInstance<Object>> serviceCollection) {
         return serviceCollection.stream().map(serviceInstance ->
-             ServiceRegisterInfo.builder()
-                    .serviceHost(serviceInstance.getAddress())
-                    .servicePort(serviceInstance.getPort())
-                    .build()
+                ServiceRegisterInfo.builder()
+                        .serviceHost(serviceInstance.getAddress())
+                        .servicePort(serviceInstance.getPort())
+                        .build()
         ).collect(Collectors.toList());
     }
 
@@ -102,8 +101,8 @@ public class ZookeeperDiscovery implements ServiceDiscovery {
         try {
             serviceDiscovery.close();
             zkClient.close();
-        }catch (Exception e){
-            log.debug("zookeeper client or service discovery failed to be closed for discovery address:{}",discoveryAddress, e);
+        } catch (Exception e) {
+            log.debug("zookeeper client or service discovery failed to be closed for discovery address:{}", discoveryAddress, e);
             throw new RuntimeException(e);
         }
     }

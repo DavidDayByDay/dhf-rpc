@@ -1,11 +1,11 @@
 import com.better.constants.MessageConstants;
+import com.better.discovery.impl.NacosDiscovery;
 import com.better.enums.MessageStatus;
 import com.better.enums.SerializerType;
 import com.better.exceptions.SerializeException;
 import com.better.factories.SerializerFactory;
-import com.better.protocol.ServiceRegisterInfo;
 import com.better.protocol.MessageHeader;
-import com.better.discovery.impl.NacosDiscovery;
+import com.better.protocol.ServiceRegisterInfo;
 import com.better.test.Fooo;
 import com.better.utils.ServiceInfoUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +13,6 @@ import org.junit.Test;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,9 +54,14 @@ public class test {
 
     @Test
     public void test1(){
-        Map<Class<?>, Object> objectMap = new HashMap<Class<?>, Object>();
-        objectMap.put(ServiceRegisterInfo.class, new ServiceRegisterInfo());
-        objectMap.put(ServiceInfoUtils.class, new ServiceInfoUtils());
+//        Map<Class<?>, Object> objectMap = new HashMap<Class<?>, Object>();
+//        objectMap.put(ServiceRegisterInfo.class, new ServiceRegisterInfo());
+//        objectMap.put(ServiceInfoUtils.class, new ServiceInfoUtils());
+
+        byte b = (byte) 10;
+        long i = (long) (b & 0xFF) << 24;
+        System.out.println(i);
+
     }
 
 
