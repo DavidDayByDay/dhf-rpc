@@ -7,7 +7,8 @@ import com.alibaba.nacos.api.naming.listener.NamingEvent;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.better.discovery.ServiceDiscovery;
 import com.better.loadbalance.LoadBalance;
-import com.better.protocol.messages.ServiceRegisterInfo;
+import com.better.protocol.ServiceRegisterInfo;
+import com.better.protocol.messages.RequestMessage;
 import com.better.utils.ServiceInfoUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,8 +42,8 @@ public class NacosDiscovery implements ServiceDiscovery {
     }
 
     @Override
-    public ServiceRegisterInfo discover(String serviceName, LoadBalance loadBalance) {
-        return loadBalance.select(getServices(serviceName));
+    public ServiceRegisterInfo discover(RequestMessage requestMessage, LoadBalance loadBalance) {
+        return loadBalance.select(getServices(requestMessage.getServiceName()),requestMessage);
     }
 
     @Override

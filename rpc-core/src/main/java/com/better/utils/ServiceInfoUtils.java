@@ -1,6 +1,6 @@
 package com.better.utils;
 
-import com.better.protocol.messages.ServiceRegisterInfo;
+import com.better.protocol.ServiceRegisterInfo;
 import com.google.gson.Gson;
 
 import java.util.Map;
@@ -29,16 +29,14 @@ public class ServiceInfoUtils {
     }
 
     public static ServiceRegisterInfo toServiceInfo(Map map) {
-        ServiceRegisterInfo serviceRegisterInfo = gson.fromJson(gson.toJson(map), ServiceRegisterInfo.class);
-        return serviceRegisterInfo;
+        return gson.fromJson(gson.toJson(map), ServiceRegisterInfo.class);
     }
 
     //约定的注册服务命名方式--client和server得到的接口名默认是相同的否则应该手动指定相同的两端发现和注册的服务命名
     public static <T> String getServiceNameByInterface(Class<T> interfaceClass) {
         String fullName = interfaceClass.getName();
-        String name = fullName.substring(fullName.lastIndexOf(".") + 1);
-//        String key = ServiceInfoUtils.serviceKey(name, version);
-        return name;
+        //        String key = ServiceInfoUtils.serviceKey(name, version);
+        return fullName.substring(fullName.lastIndexOf(".") + 1);
     }
 
 }

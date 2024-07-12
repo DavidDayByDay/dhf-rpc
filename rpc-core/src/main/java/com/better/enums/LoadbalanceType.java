@@ -1,5 +1,6 @@
 package com.better.enums;
 
+import com.better.factories.SingletonFactory;
 import com.better.loadbalance.LoadBalance;
 import com.better.loadbalance.impl.RoundRobin;
 import lombok.Getter;
@@ -22,11 +23,11 @@ public enum LoadbalanceType {
 
     public static LoadBalance parseByName(String name){
         if(name.equalsIgnoreCase("ConsistentHash")){
-            return null;
+            return SingletonFactory.getInstance(com.better.loadbalance.impl.ConsistentHash.class);
         }else if (name.equalsIgnoreCase("RoundRobin")){
-            return new RoundRobin();
+            return SingletonFactory.getInstance(RoundRobin.class);
         }else if (name.equalsIgnoreCase("Random")){
-            return null;
+            return SingletonFactory.getInstance(com.better.loadbalance.impl.Random.class);
         }
         throw new IllegalArgumentException("no such loadbalance type");
     }

@@ -1,4 +1,4 @@
-package com.better.protocol.messages;
+package com.better.protocol;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

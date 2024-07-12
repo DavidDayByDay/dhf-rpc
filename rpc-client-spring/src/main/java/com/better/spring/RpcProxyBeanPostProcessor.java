@@ -7,7 +7,6 @@ import com.better.proxy.ProxyFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-
 import java.lang.reflect.Field;
 
 /**
@@ -18,6 +17,7 @@ import java.lang.reflect.Field;
 public class RpcProxyBeanPostProcessor implements BeanPostProcessor {
     private final ProxyFactory proxyFactory;
 
+    //默认配置，用于和{@RpcReference}注解上的值比较并进行修改
     private final ClientConfig ClientConfig;
 
 
@@ -28,7 +28,6 @@ public class RpcProxyBeanPostProcessor implements BeanPostProcessor {
 
     /**
      * @param bean     已经注册的原始Bean
-     * @param beanName
      * @return 返回值是增强后的Bean
      * @throws BeansException
      */
@@ -43,7 +42,7 @@ public class RpcProxyBeanPostProcessor implements BeanPostProcessor {
                     RpcReference annotation = field.getAnnotation(RpcReference.class);
                     //为该field创建代理
                     if (field.getType().isInterface()) {
-                        if ("".equals(annotation.serviceName())) {
+                        if ("".equals(annotation.interfaceName())) {
                         }
 //                      todo   String loadbalance = annotation.loadbalance();
                         //field.getType -> 接口Class对象

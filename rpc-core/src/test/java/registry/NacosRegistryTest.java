@@ -1,7 +1,7 @@
 package registry;
 
 import com.alibaba.nacos.api.naming.pojo.Instance;
-import com.better.protocol.messages.ServiceRegisterInfo;
+import com.better.protocol.ServiceRegisterInfo;
 import com.better.discovery.impl.NacosDiscovery;
 import com.better.registry.impl.NacosRegistry;
 import org.junit.Before;

@@ -3,7 +3,7 @@ package com.better.spring;
 import com.better.annotation.RpcService;
 import com.better.config.ServerConfig;
 import com.better.exceptions.RpcException;
-import com.better.protocol.messages.ServiceRegisterInfo;
+import com.better.protocol.ServiceRegisterInfo;
 import com.better.provider.LocalServiceProvider;
 import com.better.registry.RegistryService;
 import com.better.server.RpcServer;

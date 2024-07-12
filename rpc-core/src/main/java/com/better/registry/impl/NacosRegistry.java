@@ -1,10 +1,12 @@
 package com.better.registry.impl;
 
+//参考：Nacos服务注册与发现源码剖析 https://developer.aliyun.com/article/1309878
+
 import com.alibaba.nacos.api.exception.NacosException;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.alibaba.nacos.client.naming.NacosNamingService;
-import com.better.protocol.messages.ServiceRegisterInfo;
+import com.better.protocol.ServiceRegisterInfo;
 import com.better.registry.RegistryService;
 import com.better.utils.ServiceInfoUtils;
 import lombok.extern.slf4j.Slf4j;

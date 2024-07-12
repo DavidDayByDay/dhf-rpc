@@ -1,7 +1,7 @@
 package com.better.registry;
 
 
-import com.better.protocol.messages.ServiceRegisterInfo;
+import com.better.protocol.ServiceRegisterInfo;
 
 public interface RegistryService {
     void register(ServiceRegisterInfo serviceRegisterInfo);

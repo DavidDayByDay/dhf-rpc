@@ -3,7 +3,8 @@ package com.better.discovery.impl;
 import com.better.discovery.ServiceDiscovery;
 import com.better.factories.SingletonFactory;
 import com.better.loadbalance.LoadBalance;
-import com.better.protocol.messages.ServiceRegisterInfo;
+import com.better.protocol.ServiceRegisterInfo;
+import com.better.protocol.messages.RequestMessage;
 import com.better.utils.ZkExecutorService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
@@ -24,7 +25,7 @@ import static com.better.constants.ZookeeperConstants.NAME_SPACE;
 
 @Slf4j
 public class ZookeeperDiscovery implements ServiceDiscovery {
-    //一个本地的服务缓存列表,内部是cruator提供的serviceCache缓存实现
+    //一个本地的服务缓存列表,内部是cruator提供的serviceCache缓存实现,该实现会自动更新服务列表（已经注册了监听器）
     private static final Map<String,ServiceCache<Object>> serviceCacheMap = new ConcurrentHashMap<>();
     //发现服务用ExecutorService
     private final CloseableExecutorService zookeeperExecutorService = SingletonFactory.getInstance(ZkExecutorService.class).getExecutor();
@@ -59,9 +60,9 @@ public class ZookeeperDiscovery implements ServiceDiscovery {
 
 
     @Override
-    public ServiceRegisterInfo discover(String serviceName, LoadBalance loadBalance) {
+    public ServiceRegisterInfo discover(RequestMessage requestMessage, LoadBalance loadBalance) {
         //todo
-        return getServices(serviceName).get(0);
+        return getServices(requestMessage.getServiceName()).get(0);
     }
 
     @Override
@@ -88,12 +89,12 @@ public class ZookeeperDiscovery implements ServiceDiscovery {
     }
 
     private List<ServiceRegisterInfo> toServiceRegisterInfo(List<ServiceInstance<Object>> serviceCollection) {
-        return serviceCollection.stream().map(serviceInstance -> {
-            return ServiceRegisterInfo.builder()
+        return serviceCollection.stream().map(serviceInstance ->
+             ServiceRegisterInfo.builder()
                     .serviceHost(serviceInstance.getAddress())
                     .servicePort(serviceInstance.getPort())
-                    .build();
-        }).collect(Collectors.toList());
+                    .build()
+        ).collect(Collectors.toList());
     }
 
     @Override

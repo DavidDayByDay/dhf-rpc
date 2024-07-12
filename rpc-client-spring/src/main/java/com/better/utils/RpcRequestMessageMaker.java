@@ -6,7 +6,7 @@ import com.better.enums.MessageType;
 import com.better.enums.SerializerType;
 import com.better.exceptions.MessageException;
 import com.better.protocol.messages.RequestMessage;
-import com.better.protocol.messages.ServiceRegisterInfo;
+import com.better.protocol.ServiceRegisterInfo;
 import com.better.config.ClientConfig;
 import com.better.protocol.MessageHeader;
 import com.better.protocol.RpcMessage;
@@ -14,6 +14,7 @@ import com.better.discovery.ServiceDiscovery;
 import com.better.wrappers.RpcMessageWrapper;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Arrays;
 
 /**
@@ -32,7 +33,7 @@ public class RpcRequestMessageMaker {
      */
     public static RpcMessageWrapper makeRpcRequestMessageWrapper(ServiceDiscovery serviceDiscovery,Method method, Object[] args, String serviceName, ClientConfig clientConfig) throws MessageException {
         //1.rpcMessage
-        Class<?>[] parameters = Arrays.stream(method.getParameters()).map(parameter -> parameter.getParameterizedType()).toArray(Class<?>[]::new);
+        Class<?>[] parameters = (Class<?>[]) Arrays.stream(method.getParameters()).map(Parameter::getParameterizedType).toArray(java.lang.reflect.Type[]::new);
         RequestMessage requestMessage = new RequestMessage();
         requestMessage.setMethodName(method.getName());
         requestMessage.setParameterTypes(parameters);
@@ -57,7 +58,7 @@ public class RpcRequestMessageMaker {
 
         //2.wrapper
         RpcMessageWrapper rpcMessageWrapper = new RpcMessageWrapper();
-        ServiceRegisterInfo serviceRegisterInfo = serviceDiscovery.discover(serviceName, LoadbalanceType.parseByName(clientConfig.getLoadbalance()));
+        ServiceRegisterInfo serviceRegisterInfo = serviceDiscovery.discover(requestMessage, LoadbalanceType.parseByName(clientConfig.getLoadbalance()));
 
 
         rpcMessageWrapper.setRpcMessage(rpcMessage);

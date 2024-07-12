@@ -1,6 +1,6 @@
 package com.better.registry.impl;
 
-import com.better.protocol.messages.ServiceRegisterInfo;
+import com.better.protocol.ServiceRegisterInfo;
 import com.better.registry.RegistryService;
 import com.better.utils.ServiceInfoUtils;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.better.test;
 
-import com.better.protocol.messages.ServiceRegisterInfo;
+import com.better.protocol.ServiceRegisterInfo;
 import com.better.registry.impl.ZookeeperRegistry;
 
 public class Zk {
