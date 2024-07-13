@@ -2,10 +2,9 @@ package netty;
 
 import com.better.client.Netty.NettyClient;
 import com.better.config.ClientConfig;
-import com.better.proxy.ProxyFactory;
 import com.better.discovery.ServiceDiscovery;
 import com.better.discovery.impl.NacosDiscovery;
-import com.better.test.Fooo;
+import com.better.proxy.ProxyFactory;
 
 import java.net.ServerSocket;
 
@@ -22,8 +21,8 @@ public class NettyClientTest {
         ServiceDiscovery serviceDiscovery = new NacosDiscovery("127.0.0.1:8848");
         ClientConfig properties = new ClientConfig();
         ProxyFactory proxyFactory = new ProxyFactory(serviceDiscovery, client, properties);
-        Fooo foo = proxyFactory.makeProxy(Fooo.class, "1.0",true);
-        foo.foo(9999);
+//        Fooo foo = proxyFactory.makeProxy(Fooo.class, "1.0",true);
+//        foo.foo(9999);
 
 
         ServerSocket serverSocket = null;

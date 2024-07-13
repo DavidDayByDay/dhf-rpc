@@ -16,6 +16,15 @@ public class ClientConfig {
     private String discoveryUrl;
     private Integer timeOut;
 
+    public ClientConfig(ClientConfig config){
+        this.loadbalance = config.getLoadbalance();
+        this.serializerType = config.getSerializerType();
+        this.connection = config.getConnection();
+        this.discovery = config.getDiscovery();
+        this.discoveryUrl = config.getDiscoveryUrl();
+        this.timeOut = config.getTimeOut();
+    }
+
     public ClientConfig() {
         this.loadbalance = "RoundRobin";
         this.serializerType = "JDK";

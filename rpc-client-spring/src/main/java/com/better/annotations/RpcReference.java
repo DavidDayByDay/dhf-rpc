@@ -14,14 +14,14 @@ public @interface RpcReference {
     String version() default "1.0";
 
     /**
-     * serviceName：接口的全限定类名
+     * serviceName：接口的全限定类名--服务名(除了version)
      */
     String interfaceName() default "";
 
     /**
      * 接口的类型
      */
-    Class<?> serviceInterface() default void.class;
+    Class<?> interfaceClass() default Void.class;
 
     //todo 增加额外的功能,是不同服务可以使用不同的负载均衡策略，eg. 选择指定接口，负载均衡方法
     String loadbalance() default "random";

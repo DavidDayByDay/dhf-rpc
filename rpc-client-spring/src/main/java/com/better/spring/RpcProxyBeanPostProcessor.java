@@ -7,6 +7,7 @@ import com.better.proxy.ProxyFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+
 import java.lang.reflect.Field;
 
 /**
@@ -18,22 +19,24 @@ public class RpcProxyBeanPostProcessor implements BeanPostProcessor {
     private final ProxyFactory proxyFactory;
 
     //默认配置，用于和{@RpcReference}注解上的值比较并进行修改
-    private final ClientConfig ClientConfig;
+    private final ClientConfig clientConfig;
 
 
     public RpcProxyBeanPostProcessor(ClientConfig clientConfig, ProxyFactory proxyFactory) {
         this.proxyFactory = proxyFactory;
-        this.ClientConfig = clientConfig;
+        this.clientConfig = clientConfig;
     }
 
     /**
-     * @param bean     已经注册的原始Bean
+     * @param bean 已经注册的原始Bean
      * @return 返回值是增强后的Bean
      * @throws BeansException
      */
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         Object proxy = null;
+        Class<?> superClass;
+        String className = "";
         //检查是否存在@RpcReference的field
         try {
             Field[] declaredFields = bean.getClass().getDeclaredFields();
@@ -41,29 +44,39 @@ public class RpcProxyBeanPostProcessor implements BeanPostProcessor {
                 if (field.isAnnotationPresent(RpcReference.class)) {
                     RpcReference annotation = field.getAnnotation(RpcReference.class);
                     //为该field创建代理
-                    if (field.getType().isInterface()) {
-                        if ("".equals(annotation.interfaceName())) {
+                    superClass = annotation.interfaceClass();
+                    className = annotation.interfaceName();
+                    String loadbalance = annotation.loadbalance();
+
+                    if (superClass.equals(Void.class)) {
+                        className = annotation.interfaceName();
+                        if (!"".equals(className)) {
+                            superClass = Class.forName(className);
+                        } else {
+                            superClass = field.getType();
                         }
-//                      todo   String loadbalance = annotation.loadbalance();
-                        //field.getType -> 接口Class对象
-                        proxy = proxyFactory.makeProxy(field.getType(), annotation.version(), true);
-                    } else {
-                        //todo using cglib
                     }
 
+                    ClientConfig newClientConfig = new ClientConfig(clientConfig);
+                    if (!loadbalance.equals(clientConfig.getLoadbalance())) {
+                        newClientConfig.setLoadbalance(loadbalance);
+                    }
+                    proxy = proxyFactory.makeProxy(superClass, annotation.version(), newClientConfig);
                     //再次检查
                     if (proxy != null) {
                         field.setAccessible(true);
                         field.set(bean, proxy);
-                    }else {
+                    } else {
                         throw new RpcException("making null proxy");
                     }
                 }
+
+
             }
-            return bean;
-        }catch (Exception e){
-            log.debug("something wrong when postProcessBeforeInitialization for making proxy", e);
-            throw new RpcException(e.getMessage());
+        } catch (ClassNotFoundException | IllegalAccessException e) {
+            log.debug("error in make proxy for class:{}", className);
+            throw new RuntimeException(e);
         }
+        return bean;
     }
 }

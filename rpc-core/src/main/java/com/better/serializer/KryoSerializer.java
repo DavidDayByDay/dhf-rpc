@@ -11,7 +11,7 @@ import java.io.ByteArrayOutputStream;
 @Slf4j
 public class KryoSerializer implements Serializer {
     /**
-     * 1.kryo 线程不安全
+     * 1.kryo 线程不安全,本框架中每次序列化时都会得到一个新的序列化器对象
      * 2.不要开启注册行为
      */
     private final Kryo kryo;

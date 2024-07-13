@@ -33,7 +33,7 @@ public class RpcRequestMessageMaker {
      */
     public static RpcMessageWrapper makeRpcRequestMessageWrapper(ServiceDiscovery serviceDiscovery,Method method, Object[] args, String serviceName, ClientConfig clientConfig) throws MessageException {
         //1.rpcMessage
-        Class<?>[] parameters = (Class<?>[]) Arrays.stream(method.getParameters()).map(Parameter::getParameterizedType).toArray(java.lang.reflect.Type[]::new);
+        Class<?>[] parameters = Arrays.stream(method.getParameters()).map(Parameter::getParameterizedType).toArray(Class<?>[]::new);
         RequestMessage requestMessage = new RequestMessage();
         requestMessage.setMethodName(method.getName());
         requestMessage.setParameterTypes(parameters);
