@@ -1,7 +1,9 @@
 package com.better.config;
 
 import com.better.client.Client;
+import com.better.client.Http.HttpRpcClient;
 import com.better.client.Netty.NettyClient;
+import com.better.client.Socket.SocketRpcClient;
 import com.better.proxy.ProxyFactory;
 import com.better.discovery.ServiceDiscovery;
 import com.better.discovery.impl.NacosDiscovery;
@@ -37,14 +39,14 @@ public class ClientAutoConfiguration {
     @ConditionalOnMissingBean
     @ConditionalOnProperty(prefix = "rpc.client",name = "connection",havingValue = "http")
     public Client httpClient() {
-        return new HttpClient();
+        return new HttpRpcClient();
     }
 
     @Bean("rpcClient")
     @ConditionalOnMissingBean
     @ConditionalOnProperty(prefix = "rpc.client",name = "connection",havingValue = "socket")
     public Client socketClient() {
-        return new SocketClient();
+        return new SocketRpcClient();
     }
 
     //2.服务发现
