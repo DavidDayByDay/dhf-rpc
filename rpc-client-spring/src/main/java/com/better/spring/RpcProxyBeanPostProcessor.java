@@ -13,7 +13,6 @@ import java.lang.reflect.Field;
 /**
  * 将已经注册的Bean中的所有{@RpcReference}的field替换为代理对象
  */
-//todo 是否需要作为Bean注入到spring容器中去
 @Slf4j
 public class RpcProxyBeanPostProcessor implements BeanPostProcessor {
     private final ProxyFactory proxyFactory;

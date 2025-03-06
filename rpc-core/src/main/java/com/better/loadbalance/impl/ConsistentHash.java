@@ -50,21 +50,20 @@ public class ConsistentHash extends AbstractLoadBalance {
         public ServiceRegisterInfo select(RequestMessage requestMessage) {
             //获取请求的响应hash值
             //查找响应请求最近的服务节点
-            return getVirtualInvoker(prepareRequestHash(requestMessage));
+            return toTrueInstance(prepareRequestHash(requestMessage));
         }
 
-        //1.将所有的service实例及一定数量（160）的虚拟节点分配到hash环上
+        //1.将所有的service实例及一定数量（默认160）的虚拟节点分配到hash环上
         private void prepareInvokersHash(List<ServiceRegisterInfo> services) {
             for (ServiceRegisterInfo serviceInfo : services) {
                 String address = serviceInfo.getServiceHost() + ":" + serviceInfo.getServicePort();
                 for (int i = 0; i < replicaNumber / 4; i++) {
-                    // 对 address + i 进行 md5 运算，得到一个长度为16的字节数组
+                    // 对 address + i 进行 md5 运算，得到一个长度为16字节的数组
                     byte[] digest = md5(address + i);
                     // 对 digest 部分字节进行4次 hash 运算，得到四个不同的 long 型正整数
                     for (int h = 0; h < 4; h++) {
                         // h = 0 时，取 digest 中下标为 0 ~ 3 的4个字节进行位运算
-                        // h = 1 时，取 digest 中下标为 4 ~ 7 的4个字节进行位运算
-                        // h = 2, h = 3 时过程同上
+                        // h = 1,时过程同上
                         long m = hash(digest, h);
                         // 将 hash 到 invoker 的映射关系存储到 virtualInvokers 中，
                         // virtualInvokers 需要提供高效的查询操作，因此选用 TreeMap 作为存储结构
@@ -84,7 +83,7 @@ public class ConsistentHash extends AbstractLoadBalance {
         }
 
         //3.查找请求的最近hash实例
-        private ServiceRegisterInfo getVirtualInvoker(long hash){
+        private ServiceRegisterInfo toTrueInstance(long hash){
             Map.Entry<Long, ServiceRegisterInfo> entry = virtualInvokers.tailMap(hash,true).firstEntry();
             return entry == null ? virtualInvokers.firstEntry().getValue() : entry.getValue();
         }

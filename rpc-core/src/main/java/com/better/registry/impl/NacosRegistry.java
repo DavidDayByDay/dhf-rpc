@@ -26,7 +26,6 @@ public class NacosRegistry implements RegistryService {
             log.error(String.format("an error occurred when start a naming service,the input serverAddress:%s", serverAddress));
             throw new RuntimeException(e);
         }
-
     }
 
     @Override

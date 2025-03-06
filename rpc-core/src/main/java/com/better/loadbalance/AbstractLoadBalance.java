@@ -17,12 +17,12 @@ public abstract class AbstractLoadBalance implements LoadBalance {
             return services.get(0);
         }
 
-        return doSelect(services,requestMessage);
+        return doSelect(services, requestMessage);
     }
 
     /*
     doSelect 收到的List，size >= 2
      */
-    protected abstract ServiceRegisterInfo doSelect(List<ServiceRegisterInfo> services,RequestMessage requestMessage);
+    protected abstract ServiceRegisterInfo doSelect(List<ServiceRegisterInfo> services, RequestMessage requestMessage);
 
 }

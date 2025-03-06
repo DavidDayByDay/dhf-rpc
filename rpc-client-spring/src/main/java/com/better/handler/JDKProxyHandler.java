@@ -25,7 +25,7 @@ public class JDKProxyHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        return RemoteRrocedureCall.remoteCall(client,serviceDiscovery,method,args,serviceName,clientConfig);
+        return RemoteProcedureCall.remoteCall(client,serviceDiscovery,method,args,serviceName,clientConfig);
     }
 
 

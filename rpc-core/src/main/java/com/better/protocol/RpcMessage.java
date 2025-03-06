@@ -26,10 +26,9 @@ public class RpcMessage {
     public static RpcMessage getDefaultRpcMessageWithResponse(){
         RpcMessage rpcMessage = new RpcMessage();
         rpcMessage.setMessageBody(ResponseMessage.getDefaultResponseMessage());
-        MessageHeader messageHeader1 = MessageHeader.defualtMessageHeader();
-        messageHeader1.setMessageType((byte) 1);
-        MessageHeader responseMessageHead = messageHeader1;
-        rpcMessage.setMessageHeader(responseMessageHead);
+        MessageHeader messageHeader = MessageHeader.defualtMessageHeader();
+        messageHeader.setMessageType((byte) 1);
+        rpcMessage.setMessageHeader(messageHeader);
         return rpcMessage;
     }
 }

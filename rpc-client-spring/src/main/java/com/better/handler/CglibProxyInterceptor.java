@@ -23,6 +23,6 @@ public class CglibProxyInterceptor implements MethodInterceptor {
 
     @Override
     public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-        return RemoteRrocedureCall.remoteCall(client,serviceDiscovery,method,args,serviceName,clientConfig);
+        return RemoteProcedureCall.remoteCall(client,serviceDiscovery,method,args,serviceName,clientConfig);
     }
 }

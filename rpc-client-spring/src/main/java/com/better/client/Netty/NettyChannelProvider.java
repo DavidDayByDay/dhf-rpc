@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 2.获取缓存对象
  */
 public class NettyChannelProvider {
-    private  static Map<String, Channel> channelMap = new ConcurrentHashMap<String, Channel>();
+    private  static final Map<String, Channel> channelMap = new ConcurrentHashMap<>();
 
     //检查缓存，并对channel进行活跃状态检查
     public static Channel getChannel(String hostName, Integer port) {

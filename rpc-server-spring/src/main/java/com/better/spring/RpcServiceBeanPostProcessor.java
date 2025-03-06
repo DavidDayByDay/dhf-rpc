@@ -86,7 +86,7 @@ public class RpcServiceBeanPostProcessor implements BeanPostProcessor, CommandLi
     @Override
     public void run(String... args) throws Exception {
         try {
-            new Thread(() -> rpcServer.start()).start();
+            new Thread(rpcServer::start).start();
             log.info("the service is started with host: {}, port: {} on spring boot!", serverConfig.getHost(), serverConfig.getPort());
             Runtime.getRuntime().addShutdownHook(new Thread(() -> {
                 log.info("the service is closing...and all registered service will close");

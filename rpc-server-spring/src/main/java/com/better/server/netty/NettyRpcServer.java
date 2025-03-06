@@ -10,14 +10,16 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class NettyRpcServer implements RpcServer {
     private final NioEventLoopGroup bossGroup = new NioEventLoopGroup();
     private final NioEventLoopGroup workerGroup = new NioEventLoopGroup();
     private final ServerBootstrap serverBootstrap;
-    private ChannelFuture channelFuture;
     private final String host;
     private final int port;
 
@@ -39,6 +41,7 @@ public class NettyRpcServer implements RpcServer {
                     @Override
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         ChannelPipeline pipeline = socketChannel.pipeline();
+                        pipeline.addLast(new IdleStateHandler(30,30,0, TimeUnit.SECONDS));
                         pipeline.addLast(new DefaultLengthFieldFrameDecoder());
                         pipeline.addLast(new SharableMessageCodec());
                         pipeline.addLast(new NettyRpcRequestHandler());
@@ -59,7 +62,7 @@ public class NettyRpcServer implements RpcServer {
     @Override
     public void start() {
         try {
-            channelFuture = serverBootstrap.bind(host, port).sync();
+            ChannelFuture channelFuture = serverBootstrap.bind(host, port).sync();
             log.debug("successfully started server, and the host: {}, port: {}", host, port);
             channelFuture.addListener(new ChannelFutureListener() {
                 @Override

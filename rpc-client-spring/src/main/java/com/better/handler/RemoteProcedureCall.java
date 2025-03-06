@@ -11,8 +11,8 @@ import com.better.wrappers.RpcMessageWrapper;
 
 import java.lang.reflect.Method;
 
-public class RemoteRrocedureCall {
-    public static final Object remoteCall(Client client,ServiceDiscovery serviceDiscovery, Method method, Object[] args, String serviceName, ClientConfig clientConfig) throws MessageException {
+public class RemoteProcedureCall {
+    public static Object remoteCall(Client client, ServiceDiscovery serviceDiscovery, Method method, Object[] args, String serviceName, ClientConfig clientConfig) throws MessageException {
         //1.rpcMessageWrapper
         RpcMessageWrapper rpcMessageWrapper = RpcRequestMessageMaker.makeRpcRequestMessageWrapper(serviceDiscovery, method, args, serviceName, clientConfig);
         //2.send rpc

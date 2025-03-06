@@ -40,6 +40,7 @@ public class RpcResponseHandler {
             if (exception != null) {
                 log.debug("find exception in response for sequenceId: {}", sequenceId);
                 promise.setFailure(exception);
+                //todo 增加重试机制,限流，熔断，降级策略
             } else {
                 promise.setSuccess(rpcMessage);
                 log.info("successfully get response for sequenceId: {}", sequenceId);

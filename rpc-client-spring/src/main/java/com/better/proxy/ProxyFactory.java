@@ -43,7 +43,6 @@ public class ProxyFactory {
     private  <T> T doMakeProxy(Class<T> interfaceClass, String version, boolean usingJDK,ClientConfig clientConfig) {
         String serviceName = ServiceInfoUtils.serviceKey(interfaceClass.getName(), version);
 
-        //todo 添加cglib实现
         if (usingJDK) {
             return (T) PROXY_MAP.computeIfAbsent(serviceName, k -> {
                 return Proxy.newProxyInstance(ProxyFactory.class.getClassLoader(), new Class[]{interfaceClass}, new JDKProxyHandler(
