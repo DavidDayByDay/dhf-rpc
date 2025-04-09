@@ -40,8 +40,7 @@
 ```yaml
 rpc:
   client:
-    registry-type: nacos
-    registry-addr: 127.0.0.1:8848
+    discoveryUrl: 127.0.0.1:8848
 ```
 
 ### 在 Provider 模块（服务提供者）中：
@@ -51,8 +50,9 @@ rpc:
 ```yaml
 rpc:
   server:
-    registry-type: nacos
-    registry-addr: 127.0.0.1:8848
+    registryAddress: 127.0.0.1:8848
+    port: 8888 # 服务提供端口 
+    host: 127.0.0.1 # 服务提供地址
 ```
 
 ---
