@@ -27,6 +27,9 @@ public class NettyClient implements Client {
     private final EventLoopGroup group;
 //    private final NettyChannelProvider channelProvider;
 
+    public void endLoop(){
+        group.shutdownGracefully();
+    }
 
     public NettyClient() {
 //        this.channelProvider = SingletonFactory.getInstance(NettyChannelProvider.class);
@@ -108,6 +111,7 @@ public class NettyClient implements Client {
             Channel channel = channelCompletableFuture.get();
             log.debug("successfully get connected channel to " + host + ":" + port + " in async mode!");
             channel.closeFuture().addListener(future -> {
+//                group.shutdownGracefully();
                 log.debug("connection closed: host=" + host + " port=" + port + " channel=" + channel);
             });
             return channel;

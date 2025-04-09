@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Warmup(iterations = 3, time = 5, timeUnit = TimeUnit.SECONDS)
 //测量次数,每次测量的持续时间
 @Measurement(iterations = 3, time = 5, timeUnit = TimeUnit.SECONDS)
-@Threads(10000)
+@Threads(3000)
 @Fork(1)
 @State(Scope.Benchmark)
 @OutputTimeUnit(TimeUnit.SECONDS)
@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class RpcBenchMark {
     private  HelloController helloController;
     private  AnnotationConfigApplicationContext context;
+    private NettyClient nettyClient;
 
     static {
         // 初始化时设置 NettyRpcClient 和 RpcResponseHandler 的日志类级别为 OFF，及关闭日志打印
@@ -48,9 +49,11 @@ public class RpcBenchMark {
     public void init() {
         context = new AnnotationConfigApplicationContext(ClientApplication.class);
         helloController = context.getBean("helloController", HelloController.class);
+        nettyClient = context.getBean(NettyClient.class);
     }
     @TearDown
     public void finish(){
+        nettyClient.endLoop();
         context.close();
     }
 

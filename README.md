@@ -66,4 +66,13 @@ rpc:
 
 随后启动 Consumer 模块。通过 Controller 接口访问服务时，客户端会自动从 Nacos 获取服务地址，并完成 RPC 调用。
 
+---
+## 压力测试
+基于JMH测试
+
+<img src="images\t-1000-benchmark.png" alt="1000线程并发测试结果" style="zoom:67%;" />
+
+<img src="images\t-2000-benchmark.png" alt="2000线程并发测试结果" style="zoom:67%;" />
+
+
 
