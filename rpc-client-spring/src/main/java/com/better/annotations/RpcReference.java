@@ -4,7 +4,7 @@ import java.lang.annotation.*;
 
 /**
  * Field：将该field替换为代理对象
- * Method：处理返回值，如果返回值是实现了一个接口的对象则将该接口的代理实现类返回(为实现)
+ * Method：处理返回值，如果返回值是实现了一个接口的对象则将该接口的代理实现类返回(未实现)
  */
 @Target({ElementType.FIELD,ElementType.METHOD,ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)

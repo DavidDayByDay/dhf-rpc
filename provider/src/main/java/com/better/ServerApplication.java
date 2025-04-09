@@ -10,7 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class ServerApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext run = SpringApplication.run(ServerApplication.class, args);
-        System.out.println(run.getBeanFactory().getBean("rpcServer"));
-        System.out.println(run.getBeanFactory().getBean("registryService"));
+//        System.out.println(run.getBeanFactory().getBean("rpcServer"));
+//        System.out.println(run.getBeanFactory().getBean("registryService"));
     }
 }

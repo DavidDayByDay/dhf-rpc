@@ -5,10 +5,10 @@ import com.better.enums.MessageType;
 import com.better.exceptions.MessageException;
 import com.better.exceptions.SerializeException;
 import com.better.factories.SerializerFactory;
-import com.better.protocol.messages.RequestMessage;
-import com.better.protocol.messages.ResponseMessage;
 import com.better.protocol.MessageHeader;
 import com.better.protocol.RpcMessage;
+import com.better.protocol.messages.RequestMessage;
+import com.better.protocol.messages.ResponseMessage;
 import com.better.serializer.Serializer;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler.Sharable;
@@ -33,6 +33,7 @@ public class SharableMessageCodec extends MessageToMessageCodec<ByteBuf, RpcMess
     protected void encode(ChannelHandlerContext ctx, RpcMessage rpcMessage, List<Object> list) throws SerializeException {
         //todo 每次调用都会声明一个ByteBuf --？是否使用了池化
         ByteBuf buf = ctx.alloc().buffer();
+
 
         MessageHeader messageHeader = rpcMessage.getMessageHeader();
         buf.writeBytes(messageHeader.getMagicNumber());

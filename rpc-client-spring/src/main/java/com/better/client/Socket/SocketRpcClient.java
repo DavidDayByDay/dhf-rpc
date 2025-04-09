@@ -29,6 +29,8 @@ public class SocketRpcClient implements Client {
             // 发送数据给服务端
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject(rpcMessageWrapper.getRpcMessage());
+            //flush to solve package corruption
+            //or use a length filed
             oos.flush();
             // 阻塞等待服务端的响应
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());

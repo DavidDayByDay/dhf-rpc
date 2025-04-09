@@ -1,0 +1,2 @@
+JMH S 20 jmh.IntegerBenchMark S 53 jmh.jmh_generated.IntegerBenchMark_testMethod_jmhTest S 10 testMethod S 10 Throughput E A 1 1 1 E E E E E E E E E E E E E E E E E 
+JMH S 16 jmh.RpcBenchMark S 51 jmh.jmh_generated.RpcBenchMark_testSayHello_jmhTest S 12 testSayHello S 3 All I 5 10000 A 1 1 1 E I 1 3 T 3 5 s E I 1 3 T 3 5 s E I 1 1 E E E E E E U 7 SECONDS E E 

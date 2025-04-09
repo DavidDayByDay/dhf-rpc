@@ -10,9 +10,9 @@ public class HelloController {
     @RpcReference
     private Hello helloService;
 
-    @GetMapping("/hello")
-    public String hello() {
-        return helloService.sayHello();
+    @GetMapping("/hello/{content}")
+    public String hello(String content) {
+        return helloService.sayHello(content);
 //        return "hello you!";
     }
 }

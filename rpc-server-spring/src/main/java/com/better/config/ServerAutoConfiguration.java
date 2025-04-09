@@ -6,6 +6,7 @@ import com.better.registry.impl.ZookeeperRegistry;
 import com.better.server.RpcServer;
 import com.better.server.http.HttpRpcServer;
 import com.better.server.netty.NettyRpcServer;
+import com.better.server.socket.SocketServer;
 import com.better.spring.RpcServiceBeanPostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;

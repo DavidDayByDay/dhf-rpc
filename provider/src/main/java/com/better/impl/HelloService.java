@@ -6,7 +6,7 @@ import com.better.api.Hello;
 @RpcService
 public class HelloService implements Hello {
     @Override
-    public String sayHello() {
-        return "hello in rpc response";
+    public String sayHello(String content) {
+        return "Hello " + content;
     }
 }

@@ -83,7 +83,7 @@ public class NacosDiscovery implements ServiceDiscovery {
             return serviceCacheMap.get(serviceName);
 
         } catch (NacosException e) {
-            log.error("error occurred when try to find all service instances: {}",serviceName);
+            log.error("error occurred when try to find all service instances: {}",serviceName + e.getErrMsg());
             throw new RuntimeException(e);
         }
     }
