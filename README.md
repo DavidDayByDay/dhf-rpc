@@ -70,7 +70,12 @@ rpc:
 ## 压力测试
 基于JMH测试
 
+---
+1000线程并发调用测试结果
+
 <img src="images\t-1000-benchmark.png" alt="1000线程并发测试结果" style="zoom:67%;" />
+
+2000线程并发调用测试结果
 
 <img src="images\t-2000-benchmark.png" alt="2000线程并发测试结果" style="zoom:67%;" />
 
