@@ -2,7 +2,7 @@
 ## 介绍
 
 基于 Netty + Nacos + SpringBoot 实现的自定义 RPC 框架。
-基于 JMH 压测在 10000 并发量下,的吞吐量在 29300 上下。
+
 
 1. 实现自定义的 RPC 通信协议，自定义编解码器,处理消息边界问题。
 2. 实现五种序列化方式：Kryo, Protostuff, Hessian, JDK, JSON。
